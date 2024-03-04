@@ -10,8 +10,14 @@ endif (WIN32)
 
 set (CMAKE_DEBUG_POSTFIX      d)
 set (CMAKE_CXX_STANDARD       17)
-set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}/cmake)
-set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}/cmake)
+set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
+                              ${CMAKE_INSTALL_PREFIX}/lib/cmake
+                              )
+
+set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
+                              ${CMAKE_INSTALL_PREFIX}/lib/cmake
+                              )
+set (ALLOW_DUPLICATE_CUSTOM_TARGETS ON)
 
 
 #------------------------------------------------------------------------------
@@ -29,6 +35,11 @@ option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)
 option(BUILD3rd_Eigen            "Build Eigen"               OFF)
 option(BUILD3rd_Flann            "Build Flann"               OFF)
 option(BUILD3rd_HDF5             "Build HDF5"                OFF)
+option(BUILD3rd_RealSense        "Build RealSense"           OFF)
+option(BUILD3rd_Bullet           "Build Bullet"              OFF)
+option(BUILD3rd_Assimp           "Build Assimp"              OFF)
+option(BUILD3rd_PCL              "Build PCL"                 OFF)
+option(BUILD3rd_VTK              "Build VTK"                 OFF)
 #------------------------------------------------------------------------------
 
 
@@ -36,6 +47,7 @@ option(BUILD3rd_HDF5             "Build HDF5"                OFF)
 #------------------------------------------------------------------------------
 # Message setttings
 message ("")
+message ("CMAKE_INSTALL_PREFIX:   " ${CMAKE_INSTALL_PREFIX})
 message ("CMAKE_SOURCE_DIR:       " ${CMAKE_SOURCE_DIR})
 message ("FETCHCONTENT_BASE_DIR:  " ${FETCHCONTENT_BASE_DIR})
 message ("CMAKE_MODULE_PATH:      " ${CMAKE_MODULE_PATH})
@@ -229,7 +241,6 @@ endif (BUILD3rd_Eigen)
 #------------------------------------------------------------------------------
 
 
-
 # HDF5
 #------------------------------------------------------------------------------
 if (BUILD3rd_HDF5)
@@ -250,7 +261,6 @@ endif (BUILD3rd_HDF5)
 #------------------------------------------------------------------------------
 
 
-
 # Flann
 #------------------------------------------------------------------------------
 if (BUILD3rd_Flann)
@@ -261,7 +271,6 @@ if (BUILD3rd_Flann)
     Flann
     GIT_REPOSITORY https://github.com/flann-lib/flann.git
     GIT_TAG        06a49513138009d19a1f4e0ace67fbff13270c69 # release 1.9.1
-
   )
 
   set (BUILD_TESTS            OFF)
@@ -276,7 +285,6 @@ if (BUILD3rd_Flann)
   message ("")
 endif (BUILD3rd_Flann)
 #------------------------------------------------------------------------------
-
 
 
 # OpenCV
@@ -318,20 +326,139 @@ endif (BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 if (BUILD3rd_CvPlot)
   message ("")
-  message("Downloading CvPlot")
+  message("Add CvPlot to Build")
  
   FetchContent_Declare(
     CvPlot
     GIT_REPOSITORY https://github.com/Profactor/cv-plot.git
     GIT_TAG        92ea307137e1abc3d49a5018ef80f4fbf189196b # release-1.2.2
   )
-  message ("Downloading CvPlot Finished")
 
-  message ("Add CvPlot to Build")
   set (CVPLOT_USE_CONAN OFF)  
+
   FetchContent_MakeAvailable(CvPlot)
-  target_compile_options(CvPlot -DCVPLOT_USE_CONAN=OFF)  
+
+  target_compile_options(CvPlot -DCVPLOT_USE_CONAN=OFF) 
+
   message ("Add Build CvPlot Finished")
   message ("")
 endif (BUILD3rd_CvPlot)
 #------------------------------------------------------------------------------
+
+
+# RealSense
+#------------------------------------------------------------------------------
+if (BUILD3rd_RealSense)
+  message ("")
+  message("Add RealSense to Build")
+ 
+  FetchContent_Declare(
+    RealSense
+    GIT_REPOSITORY https://github.com/IntelRealSense/librealsense.git
+    GIT_TAG        2dbaaf5964490cb02f811cf2ed38c8a893f5c027 # release-2.54.2
+  )
+
+  FetchContent_Populate(RealSense)
+
+  set (BUILD_SHARED_LIBS          ON)
+  set (BUILD_EXAMPLES             OFF)
+  set (BUILD_GRAPHICAL_EXAMPLES   OFF)
+  set (BUILD_GLFW                 OFF)
+
+  add_subdirectory(${FETCHCONTENT_BASE_DIR}/realsense-src ${FETCHCONTENT_BASE_DIR}/realsense-build)
+
+  #FetchContent_MakeAvailable(RealSense)
+
+
+  message ("Add Build RealSense Finished")
+  message ("")
+endif (BUILD3rd_RealSense)
+#------------------------------------------------------------------------------
+
+
+# Bullet
+#------------------------------------------------------------------------------
+if (BUILD3rd_Bullet)
+  message ("")
+  message("Add Bullet to Build")
+ 
+  FetchContent_Declare(
+    Bullet
+    GIT_REPOSITORY https://github.com/bulletphysics/bullet3.git
+    GIT_TAG        2c204c49e56ed15ec5fcfa71d199ab6d6570b3f5 # release-3.2.5
+  )
+
+  set (BUILD_UNIT_TESTS                 OFF)
+  set (INSTALL_LIBS                     ON)
+
+  FetchContent_MakeAvailable(Bullet)
+
+  message ("Add Build Bullet Finished")
+  message ("")
+endif (BUILD3rd_Bullet)
+#------------------------------------------------------------------------------
+
+
+# Assimp
+#------------------------------------------------------------------------------
+if (BUILD3rd_Assimp)
+  message ("")
+  message("Add Assimp to Build")
+ 
+  FetchContent_Declare(
+    Assimp
+    GIT_REPOSITORY https://github.com/assimp/assimp.git
+    GIT_TAG        6a08c39e3a91ef385e76515cfad86aca4bfd57ff # release-5.3.1
+  )
+
+  FetchContent_MakeAvailable(Assimp)
+
+  message ("Add Build Assimp Finished")
+  message ("")
+endif (BUILD3rd_Assimp)
+#------------------------------------------------------------------------------
+
+
+# VTK
+#------------------------------------------------------------------------------
+if (BUILD3rd_VTK)
+  message ("")
+  message("Add VTK to Build")
+ 
+  FetchContent_Declare(
+    VTK
+    GIT_REPOSITORY https://gitlab.kitware.com/vtk/vtk.git
+    GIT_TAG        357d9efeed29cba6383ce626575f1a5f1ac1eefb # release-9.3.0
+  )
+
+  FetchContent_MakeAvailable(VTK)
+  
+  message ("Add Build VTK Finished")
+  message ("")
+endif (BUILD3rd_VTK)
+#------------------------------------------------------------------------------
+
+
+# PCL
+#------------------------------------------------------------------------------
+if (BUILD3rd_PCL)
+  message ("")
+  message("Add PCL to Build")
+ 
+  FetchContent_Declare(
+    PCL
+    GIT_REPOSITORY https://github.com/PointCloudLibrary/pcl.git
+    GIT_TAG        f62c018b4fc7df3dc2c096918a8462a190f28bb8 # release-1.14.0
+  )
+
+  set (WITH_VTK   OFF)
+  set (WITH_CUDA  OFF)
+
+  FetchContent_MakeAvailable(PCL)
+
+  message ("Add Build PCL Finished")
+  message ("")
+endif (BUILD3rd_PCL)
+#------------------------------------------------------------------------------
+
+
