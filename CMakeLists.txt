@@ -19,6 +19,8 @@ set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}/cmake)
 option(BUILD3rd_zLib             "Build zLib"                OFF)
 option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)
 option(BUILD3rd_GLM              "Build GLM"                 OFF)
+option(BUILD3rd_GLFW             "Build GLFW"                OFF)
+option(BUILD3rd_GLEW             "Build GLEW"                OFF)
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)
 option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)
 option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)
@@ -87,17 +89,62 @@ endif (BUILD3rd_VCPkg)
 #------------------------------------------------------------------------------
 if (BUILD3rd_GLM)
   message ("")
-  message("Downloading GLM")
+  message("Add GLM to Build")
+
   set (GLM_BUILD_INSTALL ON)
+
   FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
     GIT_TAG        0af55ccecd98d4e5a8d1fad7de25ba429d60e863 # release-1.0.1
   )
+
   FetchContent_MakeAvailable(glm)
-  message ("Downloading GLM Finished")
+
+  message ("Add Build GLM Finished")
   message ("")
 endif (BUILD3rd_GLM)
+#------------------------------------------------------------------------------
+
+
+# GLFW
+#------------------------------------------------------------------------------
+if (BUILD3rd_GLFW)
+  message ("")
+  message("Add GLFW to Build")
+
+  FetchContent_Declare(
+    GLFW
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG        7b6aead9fb88b3623e3b3725ebb42670cbe4c579 # release-3.4.0
+  )
+
+  FetchContent_MakeAvailable(GLFW)
+
+  message ("Add Build GLFW Finished")
+  message ("")
+endif (BUILD3rd_GLFW)
+#------------------------------------------------------------------------------
+
+
+# GLEW
+#------------------------------------------------------------------------------
+if (BUILD3rd_GLEW)
+  message ("")
+  message("Add GLEW to Build")
+
+  FetchContent_Declare(
+    GLEW
+    GIT_REPOSITORY https://github.com/edoren/glew.git
+    GIT_TAG        5b995cab14f97231b48bc86b447be5e23b899626 # release-2.0.0
+  )
+
+  FetchContent_MakeAvailable(GLEW)
+  add_subdirectory(${FETCHCONTENT_BASE_DIR}/glew-src/build/cmake)
+
+  message ("Add Build GLEW Finished")
+  message ("")
+endif (BUILD3rd_GLEW)
 #------------------------------------------------------------------------------
 
 
@@ -105,14 +152,17 @@ endif (BUILD3rd_GLM)
 #------------------------------------------------------------------------------
 if (BUILD3rd_FlatBuffers)
   message ("")
-  message("Downloading FlatBuffers")
+  message("Add FlatBuffers to Build")
+
   FetchContent_Declare(
     FlatBuffers
     GIT_REPOSITORY https://github.com/google/flatbuffers.git
     GIT_TAG        0100f6a5779831fa7a651e4b67ef389a8752bd9b # release-23.5.26
   )
+
   FetchContent_MakeAvailable(FlatBuffers)
-  message ("Downloading FlatBuffers Finished")
+
+  message ("Add Build FlatBuffers Finished")
   message ("")
 endif (BUILD3rd_FlatBuffers)
 #------------------------------------------------------------------------------
@@ -122,15 +172,18 @@ endif (BUILD3rd_FlatBuffers)
 #------------------------------------------------------------------------------
 if (BUILD3rd_JSon)
   message ("")
-  message("Downloading JSon")
+  message("Add JSon to Build")
+
   FetchContent_Declare(
     JSon
     GIT_REPOSITORY https://github.com/nlohmann/json.git
     GIT_TAG        9cca280a4d0ccf0c08f47a99aa71d1b0e52f8d03 # release-3.11.1
-    GIT_SHALLOW    ON
+#    GIT_SHALLOW    ON
   )
+
   FetchContent_MakeAvailable(JSon)
-  message ("Downloading JSon Finished")
+
+  message ("Add Build JSon Finished")
   message ("")
 endif (BUILD3rd_JSon)
 #------------------------------------------------------------------------------
@@ -140,14 +193,17 @@ endif (BUILD3rd_JSon)
 #------------------------------------------------------------------------------
 if (BUILD3rd_ZMQ)
   message ("")
-  message("Downloading ZMQ")
+  message("Add ZMQ to Build")
+
   FetchContent_Declare(
     ZMQ
     GIT_REPOSITORY https://github.com/zeromq/libzmq.git
     GIT_TAG        622fc6dde99ee172ebaa9c8628d85a7a1995a21d # release-4.3.5
   )
+
   FetchContent_MakeAvailable(ZMQ)
-  message ("Downloading ZMQ Finished")
+
+  message ("Add Build ZMQ Finished")
   message ("")
 endif (BUILD3rd_ZMQ)
 #------------------------------------------------------------------------------
@@ -157,14 +213,17 @@ endif (BUILD3rd_ZMQ)
 #------------------------------------------------------------------------------
 if (BUILD3rd_Eigen)
   message ("")
-  message("Downloading Eigen")
+  message("Add Eigen to Build")
+
   FetchContent_Declare(
     Eigen
     GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
     #GIT_TAG        0fd6b4f71dd85b2009ee4d1aeb296e2c11fc9d68 # release-3.3.9
   )
+
   FetchContent_MakeAvailable(Eigen)
-  message ("Downloading Eigen Finished")
+
+  message ("Add Build Eigen Finished")
   message ("")
 endif (BUILD3rd_Eigen)
 #------------------------------------------------------------------------------
@@ -241,11 +300,11 @@ if (BUILD3rd_OpenCV)
   )
   
   set (OPENCV_EXTRA_MODULES_PATH      ${FETCHCONTENT_BASE_DIR}/opencv_contrib-src/modules)
-  set (WITH_GSTREAMER      OFF)
-  set (BUILD_EXAMPLES      OFF)
-  set (BUILD_opencv_java   OFF)
-  set (BUILD_opencv_python OFF)
-  set (BUILD_opencv_hdf    OFF)  
+  set (WITH_GSTREAMER                 OFF)
+  set (BUILD_EXAMPLES                 OFF)
+  set (BUILD_opencv_java              OFF)
+  set (BUILD_opencv_python            OFF)
+  set (BUILD_opencv_hdf               OFF)  
 
   FetchContent_MakeAvailable(OpenCV)
 
