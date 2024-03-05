@@ -22,24 +22,24 @@ set (ALLOW_DUPLICATE_CUSTOM_TARGETS ON)
 
 #------------------------------------------------------------------------------
 # Options
-option(BUILD3rd_zLib             "Build zLib"                OFF)
-option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)
-option(BUILD3rd_GLM              "Build GLM"                 OFF)
-option(BUILD3rd_GLFW             "Build GLFW"                OFF)
-option(BUILD3rd_GLEW             "Build GLEW"                OFF)
-option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)
-option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)
-option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)
-option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)
+option(BUILD3rd_zLib             "Build zLib"                OFF)     # 1
+option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)     # 1
+option(BUILD3rd_GLM              "Build GLM"                 OFF)     # 1
+option(BUILD3rd_GLFW             "Build GLFW"                OFF)     # 1
+option(BUILD3rd_GLEW             "Build GLEW"                OFF)     # 1
+option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     # 1
+option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     # 1
+option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     # 1
+option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)      # 2
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)
-option(BUILD3rd_Eigen            "Build Eigen"               OFF)
+option(BUILD3rd_Eigen            "Build Eigen"               OFF)      #4
 option(BUILD3rd_Flann            "Build Flann"               OFF)
-option(BUILD3rd_HDF5             "Build HDF5"                OFF)
+option(BUILD3rd_HDF5             "Build HDF5"                OFF)      # 2
 option(BUILD3rd_RealSense        "Build RealSense"           OFF)
-option(BUILD3rd_Bullet           "Build Bullet"              OFF)
-option(BUILD3rd_Assimp           "Build Assimp"              OFF)
-option(BUILD3rd_PCL              "Build PCL"                 OFF)
-option(BUILD3rd_VTK              "Build VTK"                 OFF)
+option(BUILD3rd_Bullet           "Build Bullet"              OFF)      # 3
+option(BUILD3rd_Assimp           "Build Assimp"              OFF)      #4
+option(BUILD3rd_PCL              "Build PCL"                 ON)
+option(BUILD3rd_VTK              "Build VTK"                 OFF)       # 3
 #------------------------------------------------------------------------------
 
 
@@ -273,13 +273,17 @@ if (BUILD3rd_Flann)
     GIT_TAG        06a49513138009d19a1f4e0ace67fbff13270c69 # release 1.9.1
   )
 
-  set (BUILD_TESTS            OFF)
-  set (BUILD_DOC              OFF)
-  set (BUILD_EXAMPLES         OFF)
-  set (BUILD_MATLAB_BINDINGS  OFF)
-  set (BUILD_PYTHON_BINDINGS  OFF)
+  #set (BUILD_TESTS            OFF)
+  #set (BUILD_DOC              OFF)
+  #set (BUILD_EXAMPLES         OFF)
+  #set (BUILD_MATLAB_BINDINGS  OFF)
+  #set (BUILD_PYTHON_BINDINGS  OFF)
 
-  FetchContent_MakeAvailable(Flann)
+  #FetchContent_MakeAvailable(Flann)
+
+  add_custom_command(TARGET Flann POST_BUILD
+                     COMMAND cmake -E copy_directory
+                     ${FETCHCONTENT_BASE_DIR}/flann-src/src/cpp/flann ${CMAKE_INSTALL_PREFIX})       
    
   message ("Add Build Flann Finished")
   message ("")
