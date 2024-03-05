@@ -30,18 +30,17 @@ option(BUILD3rd_GLEW             "Build GLEW"                OFF)     # 1
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     # 1
 option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     # 1
 option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     # 1
-option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)      # 2
-option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)
-option(BUILD3rd_Eigen            "Build Eigen"               OFF)      #4
-option(BUILD3rd_Flann            "Build Flann"               ON)
-option(BUILD3rd_HDF5             "Build HDF5"                OFF)      # 2
-option(BUILD3rd_RealSense        "Build RealSense"           OFF)
-option(BUILD3rd_Bullet           "Build Bullet"              OFF)      # 3
-option(BUILD3rd_Assimp           "Build Assimp"              OFF)      #4
-option(BUILD3rd_PCL              "Build PCL"                 OFF)
-option(BUILD3rd_VTK              "Build VTK"                 OFF)       # 3
+option(BUILD3rd_Flann            "Build Flann"               OFF)     # 1
+option(BUILD3rd_HDF5             "Build HDF5"                OFF)     # 2
+option(BUILD3rd_VTK              "Build VTK"                 OFF)     # 3
+option(BUILD3rd_Eigen            "Build Eigen"               OFF)     # 4
+option(BUILD3rd_Bullet           "Build Bullet"              OFF)     # 5
+option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)     # 5
+option(BUILD3rd_Assimp           "Build Assimp"              OFF)     # 5
+option(BUILD3rd_PCL              "Build PCL"                 OFF)     # 5
+option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)     # 5
+option(BUILD3rd_RealSense        "Build RealSense"           OFF)     # 5
 #------------------------------------------------------------------------------
-
 
 
 #------------------------------------------------------------------------------
