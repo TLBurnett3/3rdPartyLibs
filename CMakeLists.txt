@@ -20,6 +20,8 @@ set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
 set (ALLOW_DUPLICATE_CUSTOM_TARGETS ON)
 
 
+
+
 #------------------------------------------------------------------------------
 # Options
 option(BUILD3rd_zLib             "Build zLib"                OFF)     # 1
@@ -28,7 +30,7 @@ option(BUILD3rd_GLM              "Build GLM"                 OFF)     # 1
 option(BUILD3rd_GLFW             "Build GLFW"                OFF)     # 1
 option(BUILD3rd_GLEW             "Build GLEW"                OFF)     # 1
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     # 1
-option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     # 1
+option(BUILD3rd_JSon             "Build nLohmann JSon"       ON)     # 1
 option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     # 1
 option(BUILD3rd_Flann            "Build Flann"               OFF)     # 1
 option(BUILD3rd_HDF5             "Build HDF5"                OFF)     # 2
