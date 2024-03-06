@@ -32,32 +32,40 @@ endif (UNIX)
 
 #------------------------------------------------------------------------------
 # Options
-option(BUILD3rd_Group1           "Build Group 1 Libraries"   ON)
+option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
-option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
+option(BUILD3rd_Group5           "Build Group 5 Libraries"   ON)
+option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF)
 
-option(BUILD3rd_zLib             "Build zLib"                OFF)     # 1
-option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)     # 1
-option(BUILD3rd_GLM              "Build GLM"                 OFF)     # 1
-option(BUILD3rd_GLFW             "Build GLFW"                OFF)     # 1
-option(BUILD3rd_GLEW             "Build GLEW"                OFF)     # 1
-option(BUILD3rd_FreeType         "Build FreeType"            OFF)     # 1
-option(BUILD3rd_LibSodium        "Build LibSodium"           OFF)     # 1
-option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     # 1
-option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     # 1
-option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     # 1
-option(BUILD3rd_Flann            "Build Flann"               OFF)     # 1
-option(BUILD3rd_HDF5             "Build HDF5"                OFF)     # 2
-option(BUILD3rd_VTK              "Build VTK"                 OFF)     # 3
-option(BUILD3rd_Eigen            "Build Eigen"               OFF)     # 4
-option(BUILD3rd_Bullet           "Build Bullet"              OFF)     # 5
-option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)     # 5
-option(BUILD3rd_Assimp           "Build Assimp"              OFF)     # 5
-option(BUILD3rd_PCL              "Build PCL"                 OFF)     # 5
-option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)     # 5
-option(BUILD3rd_RealSense        "Build RealSense"           OFF)     # 5
+# Group 1
+option(BUILD3rd_zLib             "Build zLib"                OFF)     
+option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)     
+option(BUILD3rd_GLM              "Build GLM"                 OFF)     
+option(BUILD3rd_GLFW             "Build GLFW"                OFF)     
+option(BUILD3rd_GLEW             "Build GLEW"                OFF)     
+option(BUILD3rd_FreeType         "Build FreeType"            OFF)     
+option(BUILD3rd_Sodium           "Build Sodium"              OFF)     
+option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     
+option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     
+option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     
+option(BUILD3rd_Flann            "Build Flann"               OFF)     # make InstallFlann
+# Group 2
+option(BUILD3rd_HDF5             "Build HDF5"                OFF)     # Needs to be build by itself
+# Group 3
+option(BUILD3rd_CZMQ             "Build CZMQ"                OFF)     
+option(BUILD3rd_Eigen            "Build Eigen"               OFF)     
+# Group 4
+option(BUILD3rd_VTK              "Build VTK"                 OFF)     
+# Group 5
+option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)      
+option(BUILD3rd_RealSense        "Build RealSense"           OFF)     
+option(BUILD3rd_Bullet           "Build Bullet"              OFF)     
+option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
+# Group 6
+option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)     
+option(BUILD3rd_PCL              "Build PCL"                 OFF)     
 #------------------------------------------------------------------------------
 
 
@@ -75,7 +83,7 @@ message ("")
 
 # zLib
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_zLib)
+if (BUILD3rd_Group1 OR BUILD3rd_zLIB)
   message ("")
   message ("Add zLib to Build") 
 
@@ -89,7 +97,7 @@ if (BUILD3rd_Group1 OR BUILD3rd_zLib)
 
   message ("Add Build zLib Finished")
   message ("")
-endif (BUILD3rd_Group1 OR BUILD3rd_zLib)
+endif (BUILD3rd_Group1 OR BUILD3rd_zLIB)
 #------------------------------------------------------------------------------
 
 
@@ -197,32 +205,30 @@ endif (BUILD3rd_Group1 OR BUILD3rd_FreeType)
 #------------------------------------------------------------------------------
 
 
-# LibSodium
+# Sodium
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_LibSodium)
+if (BUILD3rd_Group1 OR BUILD3rd_Sodium)
   message ("")
-  message("Add LibSodium to Build")
+  message("Add Sodium to Build")
 
   FetchContent_Declare(
-    LibSodium
+    Sodium
     GIT_REPOSITORY https://github.com/jedisct1/libsodium.git
     GIT_TAG        fb4533b0a941b3a5b1db5687d1b008a5853d1f29 # release-1.0.19
   )
 
-  FetchContent_MakeAvailable(LibSodium)
-  ExternalProject_Add(LibSodium
-                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/libsodium-src
-                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/libsodium-src/configure
-                      BUILD_COMMAND make install
+  FetchContent_MakeAvailable(Sodium)
+  ExternalProject_Add(Sodium
+                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/sodium-src
+                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/sodium-src/configure
+                      BUILD_COMMAND make
+                      INSTALL_COMMAND make install
                       BUILD_IN_SOURCE 1
                       )
-                    #add_custom_command(OUTPUT  ${FETCHCONTENT_BASE_DIR}/libsodium-src/Makefile
-  #                 COMMAND make install
-  #                 WORKING_DIRECTORY ${FETCHCONTENT_BASE_DIR}/libsodium-src)
   
-  message ("Add Build LibSodium Finished")
+  message ("Add Build Sodium Finished")
   message ("")
-endif (BUILD3rd_Group1 OR BUILD3rd_LibSodium)
+endif (BUILD3rd_Group1 OR BUILD3rd_Sodium)
 #------------------------------------------------------------------------------
 
 
@@ -256,8 +262,9 @@ if (BUILD3rd_Group1 OR BUILD3rd_JSon)
     JSon
     GIT_REPOSITORY https://github.com/nlohmann/json.git
     GIT_TAG        9cca280a4d0ccf0c08f47a99aa71d1b0e52f8d03 # release-3.11.1
-#    GIT_SHALLOW    ON
   )
+
+  set (JSON_Install     ON)
 
   FetchContent_MakeAvailable(JSon)
 
@@ -321,29 +328,9 @@ endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
 #------------------------------------------------------------------------------
 
 
-# Eigen
-#------------------------------------------------------------------------------
-if (BUILD3rd_Eigen)
-  message ("")
-  message("Add Eigen to Build")
-
-  FetchContent_Declare(
-    Eigen
-    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-    #GIT_TAG        0fd6b4f71dd85b2009ee4d1aeb296e2c11fc9d68 # release-3.3.9
-  )
-
-  FetchContent_MakeAvailable(Eigen)
-
-  message ("Add Build Eigen Finished")
-  message ("")
-endif (BUILD3rd_Eigen)
-#------------------------------------------------------------------------------
-
-
 # HDF5
 #------------------------------------------------------------------------------
-if (BUILD3rd_HDF5)
+if (BUILD3rd_Group2 OR BUILD3rd_HDF5)
   message ("")
   message ("Add HDF5 to Build") 
 
@@ -357,14 +344,73 @@ if (BUILD3rd_HDF5)
   
   message ("Add Build HDF5 Finished")
   message ("")
-endif (BUILD3rd_HDF5)
+endif (BUILD3rd_Group2 OR BUILD3rd_HDF5)
 #------------------------------------------------------------------------------
 
+
+# CZMQ
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group3 OR BUILD3rd_CZMQ)
+  message ("")
+  message("Add CZMQ to Build")
+
+  FetchContent_Declare(
+    CZMQ
+    GIT_REPOSITORY https://github.com/zeromq/czmq.git
+    GIT_TAG        4a50c2153586cf510d6cc3fcfbb9f5ea2e02c419 # release-4.2.1
+  )
+
+  FetchContent_MakeAvailable(CZMQ)
+
+  message ("Add Build CZMQ Finished")
+  message ("")
+endif (BUILD3rd_Group3 OR BUILD3rd_CZMQ)
+#------------------------------------------------------------------------------
+
+
+# Eigen
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group3 OR BUILD3rd_Eigen)
+  message ("")
+  message("Add Eigen to Build")
+
+  FetchContent_Declare(
+    Eigen
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    #GIT_TAG        0fd6b4f71dd85b2009ee4d1aeb296e2c11fc9d68 # release-3.3.9
+  )
+
+  FetchContent_MakeAvailable(Eigen)
+
+  message ("Add Build Eigen Finished")
+  message ("")
+endif (BUILD3rd_Group3 OR BUILD3rd_Eigen)
+#------------------------------------------------------------------------------
+
+
+# VTK
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group4 OR BUILD3rd_VTK)
+  message ("")
+  message("Add VTK to Build")
+ 
+  FetchContent_Declare(
+    VTK
+    GIT_REPOSITORY https://gitlab.kitware.com/vtk/vtk.git
+    GIT_TAG        357d9efeed29cba6383ce626575f1a5f1ac1eefb # release-9.3.0
+  )
+
+  FetchContent_MakeAvailable(VTK)
+  
+  message ("Add Build VTK Finished")
+  message ("")
+endif (BUILD3rd_Group4 OR BUILD3rd_VTK)
+#------------------------------------------------------------------------------
 
 
 # OpenCV
 #------------------------------------------------------------------------------
-if (BUILD3rd_OpenCV)
+if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
   message ("")
   message ("Add OpenCV to Build") 
 
@@ -393,37 +439,13 @@ if (BUILD3rd_OpenCV)
 
   message ("Add Build OpenCV Finished")
   message ("")
-endif (BUILD3rd_OpenCV)
-#------------------------------------------------------------------------------
-
-
-# CvPlot
-#------------------------------------------------------------------------------
-if (BUILD3rd_CvPlot)
-  message ("")
-  message("Add CvPlot to Build")
- 
-  FetchContent_Declare(
-    CvPlot
-    GIT_REPOSITORY https://github.com/Profactor/cv-plot.git
-    GIT_TAG        92ea307137e1abc3d49a5018ef80f4fbf189196b # release-1.2.2
-  )
-
-  set (CVPLOT_USE_CONAN OFF)  
-
-  FetchContent_MakeAvailable(CvPlot)
-
-  target_compile_options(CvPlot -DCVPLOT_USE_CONAN=OFF) 
-
-  message ("Add Build CvPlot Finished")
-  message ("")
-endif (BUILD3rd_CvPlot)
+endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 
 
 # RealSense
 #------------------------------------------------------------------------------
-if (BUILD3rd_RealSense)
+if (BUILD3rd_Group5 OR BUILD3rd_RealSense)
   message ("")
   message("Add RealSense to Build")
  
@@ -447,13 +469,13 @@ if (BUILD3rd_RealSense)
 
   message ("Add Build RealSense Finished")
   message ("")
-endif (BUILD3rd_RealSense)
+endif (BUILD3rd_Group5 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
 
 
 # Bullet
 #------------------------------------------------------------------------------
-if (BUILD3rd_Bullet)
+if (BUILD3rd_Group5 OR BUILD3rd_Bullet)
   message ("")
   message("Add Bullet to Build")
  
@@ -470,13 +492,13 @@ if (BUILD3rd_Bullet)
 
   message ("Add Build Bullet Finished")
   message ("")
-endif (BUILD3rd_Bullet)
+endif (BUILD3rd_Group5 OR BUILD3rd_Bullet)
 #------------------------------------------------------------------------------
 
 
 # Assimp
 #------------------------------------------------------------------------------
-if (BUILD3rd_Assimp)
+if (BUILD3rd_Group5 OR BUILD3rd_Assimp)
   message ("")
   message("Add Assimp to Build")
  
@@ -490,33 +512,37 @@ if (BUILD3rd_Assimp)
 
   message ("Add Build Assimp Finished")
   message ("")
-endif (BUILD3rd_Assimp)
+endif (BUILD3rd_Group5 OR BUILD3rd_Assimp)
 #------------------------------------------------------------------------------
 
 
-# VTK
+# CvPlot
 #------------------------------------------------------------------------------
-if (BUILD3rd_VTK)
+if (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
   message ("")
-  message("Add VTK to Build")
+  message("Add CvPlot to Build")
  
   FetchContent_Declare(
-    VTK
-    GIT_REPOSITORY https://gitlab.kitware.com/vtk/vtk.git
-    GIT_TAG        357d9efeed29cba6383ce626575f1a5f1ac1eefb # release-9.3.0
+    CvPlot
+    GIT_REPOSITORY https://github.com/Profactor/cv-plot.git
+    GIT_TAG        92ea307137e1abc3d49a5018ef80f4fbf189196b # release-1.2.2
   )
 
-  FetchContent_MakeAvailable(VTK)
-  
-  message ("Add Build VTK Finished")
+  set (CVPLOT_USE_CONAN OFF)  
+
+  FetchContent_MakeAvailable(CvPlot)
+
+  target_compile_options(CvPlot -DCVPLOT_USE_CONAN=OFF) 
+
+  message ("Add Build CvPlot Finished")
   message ("")
-endif (BUILD3rd_VTK)
+endif (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
 #------------------------------------------------------------------------------
 
 
 # PCL
 #------------------------------------------------------------------------------
-if (BUILD3rd_PCL)
+if (BUILD3rd_Group6 OR BUILD3rd_PCL)
   message ("")
   message("Add PCL to Build")
  
@@ -533,15 +559,15 @@ if (BUILD3rd_PCL)
 
   message ("Add Build PCL Finished")
   message ("")
-endif (BUILD3rd_PCL)
+endif (BUILD3rd_Group6 OR BUILD3rd_PCL)
 #------------------------------------------------------------------------------
 
 
 # Message
 #------------------------------------------------------------------------------
-if (BUILD3rd_Flann)
+if (BUILD3rd_Group1 OR BUILD3rd_Flann)
 message ("To Finish installing Flann: sudo make InstallFlann")
-endif (BUILD3rd_Flann)
+endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
 
 message("")
 message("")
