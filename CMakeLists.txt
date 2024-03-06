@@ -50,9 +50,9 @@ option(BUILD3rd_Sodium           "Build Sodium"              OFF)
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     
 option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     
 option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     
-option(BUILD3rd_Flann            "Build Flann"               OFF)     # make InstallFlann
+option(BUILD3rd_Flann            "Build Flann"               OFF)   # make InstallFlann
 # Group 2
-option(BUILD3rd_HDF5             "Build HDF5"                OFF)     # Needs to be build by itself
+option(BUILD3rd_HDF5             "Build HDF5"                OFF)   # Needs to be build by itself
 # Group 3
 option(BUILD3rd_CZMQ             "Build CZMQ"                OFF)     
 option(BUILD3rd_Eigen            "Build Eigen"               OFF)     
@@ -60,12 +60,12 @@ option(BUILD3rd_Eigen            "Build Eigen"               OFF)
 option(BUILD3rd_VTK              "Build VTK"                 OFF)     
 # Group 5
 option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)      
-option(BUILD3rd_RealSense        "Build RealSense"           OFF)     
 option(BUILD3rd_Bullet           "Build Bullet"              OFF)     
 option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
 # Group 6
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)     
 option(BUILD3rd_PCL              "Build PCL"                 OFF)     
+option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict     
 #------------------------------------------------------------------------------
 
 
@@ -430,6 +430,7 @@ if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
   
   set (OPENCV_EXTRA_MODULES_PATH      ${FETCHCONTENT_BASE_DIR}/opencv_contrib-src/modules)
   set (WITH_GSTREAMER                 OFF)
+  set (WITH_VTK                       OFF)
   set (BUILD_EXAMPLES                 OFF)
   set (BUILD_opencv_java              OFF)
   set (BUILD_opencv_python            OFF)
@@ -440,36 +441,6 @@ if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
   message ("Add Build OpenCV Finished")
   message ("")
 endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
-#------------------------------------------------------------------------------
-
-
-# RealSense
-#------------------------------------------------------------------------------
-if (BUILD3rd_Group5 OR BUILD3rd_RealSense)
-  message ("")
-  message("Add RealSense to Build")
- 
-  FetchContent_Declare(
-    RealSense
-    GIT_REPOSITORY https://github.com/IntelRealSense/librealsense.git
-    GIT_TAG        2dbaaf5964490cb02f811cf2ed38c8a893f5c027 # release-2.54.2
-  )
-
-  FetchContent_Populate(RealSense)
-
-  set (BUILD_SHARED_LIBS          ON)
-  set (BUILD_EXAMPLES             OFF)
-  set (BUILD_GRAPHICAL_EXAMPLES   OFF)
-  set (BUILD_GLFW                 OFF)
-
-  add_subdirectory(${FETCHCONTENT_BASE_DIR}/realsense-src ${FETCHCONTENT_BASE_DIR}/realsense-build)
-
-  #FetchContent_MakeAvailable(RealSense)
-
-
-  message ("Add Build RealSense Finished")
-  message ("")
-endif (BUILD3rd_Group5 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
 
 
@@ -560,6 +531,37 @@ if (BUILD3rd_Group6 OR BUILD3rd_PCL)
   message ("Add Build PCL Finished")
   message ("")
 endif (BUILD3rd_Group6 OR BUILD3rd_PCL)
+
+#------------------------------------------------------------------------------
+
+
+# RealSense
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group6 OR BUILD3rd_RealSense)
+  message ("")
+  message("Add RealSense to Build")
+ 
+  FetchContent_Declare(
+    RealSense
+    GIT_REPOSITORY https://github.com/IntelRealSense/librealsense.git
+    GIT_TAG        2dbaaf5964490cb02f811cf2ed38c8a893f5c027 # release-2.54.2
+  )
+
+  FetchContent_Populate(RealSense)
+
+  set (BUILD_SHARED_LIBS          ON)
+  set (BUILD_EXAMPLES             OFF)
+  set (BUILD_GRAPHICAL_EXAMPLES   OFF)
+  set (BUILD_GLFW                 OFF)
+
+  add_subdirectory(${FETCHCONTENT_BASE_DIR}/realsense-src ${FETCHCONTENT_BASE_DIR}/realsense-build)
+
+  #FetchContent_MakeAvailable(RealSense)
+
+
+  message ("Add Build RealSense Finished")
+  message ("")
+endif (BUILD3rd_Group6 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
 
 
