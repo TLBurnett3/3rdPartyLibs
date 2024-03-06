@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.26)
 project(3rdPartyLibs)
 
 include(FetchContent)
+include(ExternalProject)
 
 if (WIN32)
 set (CMAKE_INSTALL_PREFIX    /FoVI3D/3rdPartyLibs)
@@ -10,6 +11,7 @@ endif (WIN32)
 
 set (CMAKE_DEBUG_POSTFIX      d)
 set (CMAKE_CXX_STANDARD       17)
+
 set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
                               ${CMAKE_INSTALL_PREFIX}/lib/cmake
                               )
@@ -17,20 +19,34 @@ set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
 set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
                               ${CMAKE_INSTALL_PREFIX}/lib/cmake
                               )
-set (ALLOW_DUPLICATE_CUSTOM_TARGETS ON)
 
+set (ALLOW_DUPLICATE_CUSTOM_TARGETS OFF)
 
+if (UNIX)
+#set(CMAKE_C_COMPILER                      /usr/bin/gcc-8 CACHE PATH "" FORCE)
+#set(CMAKE_CXX_COMPILER                    /usr/bin/g++-8 CACHE PATH "" FORCE)
+set(CMAKE_CXX_FLAGS_DEBUG                 "-g")
+set(CMAKE_CXX_FLAGS_RELEASE               "-O3")  
+endif (UNIX)
 
 
 #------------------------------------------------------------------------------
 # Options
+option(BUILD3rd_Group1           "Build Group 1 Libraries"   ON)
+option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
+option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
+option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
+option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
+
 option(BUILD3rd_zLib             "Build zLib"                OFF)     # 1
 option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)     # 1
 option(BUILD3rd_GLM              "Build GLM"                 OFF)     # 1
 option(BUILD3rd_GLFW             "Build GLFW"                OFF)     # 1
 option(BUILD3rd_GLEW             "Build GLEW"                OFF)     # 1
+option(BUILD3rd_FreeType         "Build FreeType"            OFF)     # 1
+option(BUILD3rd_LibSodium        "Build LibSodium"           OFF)     # 1
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     # 1
-option(BUILD3rd_JSon             "Build nLohmann JSon"       ON)     # 1
+option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     # 1
 option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     # 1
 option(BUILD3rd_Flann            "Build Flann"               OFF)     # 1
 option(BUILD3rd_HDF5             "Build HDF5"                OFF)     # 2
@@ -59,7 +75,7 @@ message ("")
 
 # zLib
 #------------------------------------------------------------------------------
-if (BUILD3rd_zLib)
+if (BUILD3rd_Group1 OR BUILD3rd_zLib)
   message ("")
   message ("Add zLib to Build") 
 
@@ -73,14 +89,14 @@ if (BUILD3rd_zLib)
 
   message ("Add Build zLib Finished")
   message ("")
-endif (BUILD3rd_zLib)
+endif (BUILD3rd_Group1 OR BUILD3rd_zLib)
 #------------------------------------------------------------------------------
 
 
 
 # VCPkg
 #------------------------------------------------------------------------------
-if (BUILD3rd_VCPkg)
+if (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
   message ("")
   message ("Add VCPkg to Build") 
 
@@ -94,13 +110,13 @@ if (BUILD3rd_VCPkg)
 
   message ("Add Build VCPkg Finished")
   message ("")
-endif (BUILD3rd_VCPkg)
+endif (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
 #------------------------------------------------------------------------------
 
 
 # GLM
 #------------------------------------------------------------------------------
-if (BUILD3rd_GLM)
+if (BUILD3rd_Group1 OR BUILD3rd_GLM)
   message ("")
   message("Add GLM to Build")
 
@@ -116,13 +132,13 @@ if (BUILD3rd_GLM)
 
   message ("Add Build GLM Finished")
   message ("")
-endif (BUILD3rd_GLM)
+endif (BUILD3rd_Group1 OR BUILD3rd_GLM)
 #------------------------------------------------------------------------------
 
 
 # GLFW
 #------------------------------------------------------------------------------
-if (BUILD3rd_GLFW)
+if (BUILD3rd_Group1 OR BUILD3rd_GLFW)
   message ("")
   message("Add GLFW to Build")
 
@@ -136,13 +152,13 @@ if (BUILD3rd_GLFW)
 
   message ("Add Build GLFW Finished")
   message ("")
-endif (BUILD3rd_GLFW)
+endif (BUILD3rd_Group1 OR BUILD3rd_GLFW)
 #------------------------------------------------------------------------------
 
 
 # GLEW
 #------------------------------------------------------------------------------
-if (BUILD3rd_GLEW)
+if (BUILD3rd_Group1 OR BUILD3rd_GLEW)
   message ("")
   message("Add GLEW to Build")
 
@@ -157,13 +173,62 @@ if (BUILD3rd_GLEW)
 
   message ("Add Build GLEW Finished")
   message ("")
-endif (BUILD3rd_GLEW)
+endif (BUILD3rd_Group1 OR BUILD3rd_GLEW)
+#------------------------------------------------------------------------------
+
+
+# FreeType
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group1 OR BUILD3rd_FreeType)
+  message ("")
+  message("Add FreeType to Build")
+
+  FetchContent_Declare(
+    FreeType
+    GIT_REPOSITORY https://gitlab.freedesktop.org/freetype/freetype.git
+    GIT_TAG        920c5502cc3ddda88f6c7d85ee834ac611bb11cc # release-2.13.2
+  )
+
+  FetchContent_MakeAvailable(FreeType)
+  
+  message ("Add Build FreeType Finished")
+  message ("")
+endif (BUILD3rd_Group1 OR BUILD3rd_FreeType)
+#------------------------------------------------------------------------------
+
+
+# LibSodium
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group1 OR BUILD3rd_LibSodium)
+  message ("")
+  message("Add LibSodium to Build")
+
+  FetchContent_Declare(
+    LibSodium
+    GIT_REPOSITORY https://github.com/jedisct1/libsodium.git
+    GIT_TAG        fb4533b0a941b3a5b1db5687d1b008a5853d1f29 # release-1.0.19
+  )
+
+  FetchContent_MakeAvailable(LibSodium)
+  ExternalProject_Add(LibSodium
+                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/libsodium-src
+                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/libsodium-src/configure
+                      BUILD_COMMAND make install
+                      BUILD_IN_SOURCE 1
+                      )
+                    #add_custom_command(OUTPUT  ${FETCHCONTENT_BASE_DIR}/libsodium-src/Makefile
+  #                 COMMAND make install
+  #                 WORKING_DIRECTORY ${FETCHCONTENT_BASE_DIR}/libsodium-src)
+  
+  message ("Add Build LibSodium Finished")
+  message ("")
+endif (BUILD3rd_Group1 OR BUILD3rd_LibSodium)
 #------------------------------------------------------------------------------
 
 
 # FlatBuffers
 #------------------------------------------------------------------------------
-if (BUILD3rd_FlatBuffers)
+if (BUILD3rd_Group1 OR BUILD3rd_FlatBuffers)
   message ("")
   message("Add FlatBuffers to Build")
 
@@ -177,13 +242,13 @@ if (BUILD3rd_FlatBuffers)
 
   message ("Add Build FlatBuffers Finished")
   message ("")
-endif (BUILD3rd_FlatBuffers)
+endif (BUILD3rd_Group1 OR BUILD3rd_FlatBuffers)
 #------------------------------------------------------------------------------
 
 
 # nLohmann JSon
 #------------------------------------------------------------------------------
-if (BUILD3rd_JSon)
+if (BUILD3rd_Group1 OR BUILD3rd_JSon)
   message ("")
   message("Add JSon to Build")
 
@@ -198,13 +263,13 @@ if (BUILD3rd_JSon)
 
   message ("Add Build JSon Finished")
   message ("")
-endif (BUILD3rd_JSon)
+endif (BUILD3rd_Group1 OR BUILD3rd_JSon)
 #------------------------------------------------------------------------------
 
 
 # ZMQ
 #------------------------------------------------------------------------------
-if (BUILD3rd_ZMQ)
+if (BUILD3rd_Group1 OR BUILD3rd_ZMQ)
   message ("")
   message("Add ZMQ to Build")
 
@@ -218,7 +283,41 @@ if (BUILD3rd_ZMQ)
 
   message ("Add Build ZMQ Finished")
   message ("")
-endif (BUILD3rd_ZMQ)
+endif (BUILD3rd_Group1 OR BUILD3rd_ZMQ)
+#------------------------------------------------------------------------------
+
+
+# Flann
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group1 OR BUILD3rd_Flann)
+  message ("")
+  message ("Add Flann to Build") 
+
+  FetchContent_Declare(
+    Flann
+    GIT_REPOSITORY https://github.com/flann-lib/flann.git
+    GIT_TAG        06a49513138009d19a1f4e0ace67fbff13270c69 # release 1.9.1
+  )
+
+  set (BUILD_C_BINDINGS         OFF)
+  set (BUILD_PYTHON_BINDINGS    OFF)
+  set (BUILD_MATLAB_BINDINGS    OFF)
+  set (BUILD_CUDA_LIB           OFF)
+  set (BUILD_EXAMPLES           OFF)
+  set (BUILD_TESTS              OFF)
+  set (BUILD_DOC                OFF)
+  set (USE_OPENMP               OFF)
+  set (USE_MPI                  OFF)
+
+  FetchContent_Populate(Flann)
+  add_custom_target("InstallFlann")
+  add_custom_command(TARGET "InstallFlann"    
+                     COMMAND ${CMAKE_COMMAND} -E copy_directory
+                     ${FETCHCONTENT_BASE_DIR}/flann-src/src/cpp/flann ${CMAKE_INSTALL_PREFIX}/include/flann)       
+
+  message ("Add Build Flann Finished")
+  message ("")
+endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
 #------------------------------------------------------------------------------
 
 
@@ -261,39 +360,6 @@ if (BUILD3rd_HDF5)
 endif (BUILD3rd_HDF5)
 #------------------------------------------------------------------------------
 
-
-# Flann
-#------------------------------------------------------------------------------
-if (BUILD3rd_Flann)
-  message ("")
-  message ("Add Flann to Build") 
-
-  FetchContent_Declare(
-    Flann
-    GIT_REPOSITORY https://github.com/flann-lib/flann.git
-    GIT_TAG        06a49513138009d19a1f4e0ace67fbff13270c69 # release 1.9.1
-  )
-
-  set (BUILD_C_BINDINGS         OFF)
-  set (BUILD_PYTHON_BINDINGS    OFF)
-  set (BUILD_MATLAB_BINDINGS    OFF)
-  set (BUILD_CUDA_LIB           OFF)
-  set (BUILD_EXAMPLES           OFF)
-  set (BUILD_TESTS              OFF)
-  set (BUILD_DOC                OFF)
-  set (USE_OPENMP               OFF)
-  set (USE_MPI                  OFF)
-
-  FetchContent_Populate(Flann)
-  add_custom_target("InstallFlann")
-  add_custom_command(TARGET "InstallFlann"    
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                     ${FETCHCONTENT_BASE_DIR}/flann-src/src/cpp/flann ${CMAKE_INSTALL_PREFIX}/include/flann)       
-
-  message ("Add Build Flann Finished")
-  message ("")
-endif (BUILD3rd_Flann)
-#------------------------------------------------------------------------------
 
 
 # OpenCV
