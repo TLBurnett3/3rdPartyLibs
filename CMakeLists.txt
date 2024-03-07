@@ -23,8 +23,9 @@ set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
 set (ALLOW_DUPLICATE_CUSTOM_TARGETS OFF)
 
 if (UNIX)
-#set(CMAKE_C_COMPILER                      /usr/bin/gcc-8 CACHE PATH "" FORCE)
-#set(CMAKE_CXX_COMPILER                    /usr/bin/g++-8 CACHE PATH "" FORCE)
+set(CMAKE_C_COMPILER                      /usr/bin/gcc-8 CACHE PATH "" FORCE)
+set(CMAKE_CXX_COMPILER                    /usr/bin/g++-8 CACHE PATH "" FORCE)
+set(CMAKE_CXX_FLAGS                       "-fPIC")
 set(CMAKE_CXX_FLAGS_DEBUG                 "-g")
 set(CMAKE_CXX_FLAGS_RELEASE               "-O3")  
 endif (UNIX)
@@ -32,12 +33,13 @@ endif (UNIX)
 
 #------------------------------------------------------------------------------
 # Options
+# sudo make install InstallFlann
 option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
-option(BUILD3rd_Group5           "Build Group 5 Libraries"   ON)
-option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF)
+option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
+option(BUILD3rd_Group6           "Build Group 6 Libraries"   ON) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
@@ -65,6 +67,7 @@ option(BUILD3rd_Assimp           "Build Assimp"              OFF)
 # Group 6
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)     
 option(BUILD3rd_PCL              "Build PCL"                 OFF)     
+# Group 7
 option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict     
 #------------------------------------------------------------------------------
 
@@ -410,7 +413,7 @@ endif (BUILD3rd_Group4 OR BUILD3rd_VTK)
 
 # OpenCV
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
+if (BUILD3rd_Group8 OR BUILD3rd_OpenCV)
   message ("")
   message ("Add OpenCV to Build") 
 
@@ -431,16 +434,23 @@ if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
   set (OPENCV_EXTRA_MODULES_PATH      ${FETCHCONTENT_BASE_DIR}/opencv_contrib-src/modules)
   set (WITH_GSTREAMER                 OFF)
   set (WITH_VTK                       OFF)
+  if (UNIX)
+    set (BUILD_opencv_apps            OFF)
+    set (WITH_EIGEN                   OFF)  # _mm intrinics undefined
+  endif (UNIX)  
   set (BUILD_EXAMPLES                 OFF)
+  set (BUILD_TESTS                    OFF)
+  set (BUILD_UNIT_TESTS               OFF)
   set (BUILD_opencv_java              OFF)
   set (BUILD_opencv_python            OFF)
   set (BUILD_opencv_hdf               OFF)  
+  set (OPENCV_DNN_CUDA                OFF) 
 
   FetchContent_MakeAvailable(OpenCV)
 
   message ("Add Build OpenCV Finished")
   message ("")
-endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
+endif (BUILD3rd_Group8 OR BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 
 
@@ -456,6 +466,7 @@ if (BUILD3rd_Group5 OR BUILD3rd_Bullet)
     GIT_TAG        2c204c49e56ed15ec5fcfa71d199ab6d6570b3f5 # release-3.2.5
   )
 
+  set (BUILD_BULLET2_DEMOS              OFF)
   set (BUILD_UNIT_TESTS                 OFF)
   set (INSTALL_LIBS                     ON)
 
@@ -489,7 +500,7 @@ endif (BUILD3rd_Group5 OR BUILD3rd_Assimp)
 
 # CvPlot
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
+if (BUILD3rd_Group8 OR BUILD3rd_CvPlot)
   message ("")
   message("Add CvPlot to Build")
  
@@ -507,7 +518,7 @@ if (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
 
   message ("Add Build CvPlot Finished")
   message ("")
-endif (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
+endif (BUILD3rd_Group8 OR BUILD3rd_CvPlot)
 #------------------------------------------------------------------------------
 
 
@@ -537,7 +548,7 @@ endif (BUILD3rd_Group6 OR BUILD3rd_PCL)
 
 # RealSense
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group6 OR BUILD3rd_RealSense)
+if (BUILD3rd_Group7 OR BUILD3rd_RealSense)
   message ("")
   message("Add RealSense to Build")
  
@@ -561,7 +572,7 @@ if (BUILD3rd_Group6 OR BUILD3rd_RealSense)
 
   message ("Add Build RealSense Finished")
   message ("")
-endif (BUILD3rd_Group6 OR BUILD3rd_RealSense)
+endif (BUILD3rd_Group7 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
 
 
