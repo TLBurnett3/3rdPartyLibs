@@ -38,12 +38,11 @@ option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
-option(BUILD3rd_Group5           "Build Group 5 Libraries"   On)
+option(BUILD3rd_Group5           "Build Group 5 Libraries"   ON)
 option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
-option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)     
 option(BUILD3rd_GLM              "Build GLM"                 OFF)   
 option(BUILD3rd_GLEW             "Build GLEW"                OFF)   
 option(BUILD3rd_GLFW             "Build GLFW"                OFF)       
@@ -72,8 +71,9 @@ option(BUILD3rd_PCL              "Build PCL"                 OFF)
 # Group 7
 option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict 
 
-
+# Group N - not really into building
 option(BUILD3rd_CZMQ             "Build CZMQ"                OFF) 
+option(BUILD3rd_VCPkg            "Build VCPkg"               OFF) 
 #------------------------------------------------------------------------------
 
 
@@ -106,27 +106,6 @@ if (BUILD3rd_Group1 OR BUILD3rd_zLIB)
   message ("Add Build zLib Finished")
   message ("")
 endif (BUILD3rd_Group1 OR BUILD3rd_zLIB)
-#------------------------------------------------------------------------------
-
-
-
-# VCPkg
-#------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
-  message ("")
-  message ("Add VCPkg to Build") 
-
-  FetchContent_Declare(
-    VCPkg
-    GIT_REPOSITORY  https://github.com/microsoft/vcpkg.git
-    GIT_TAG         fba75d09065fcc76a25dcf386b1d00d33f5175af # release 2024.2.14
-  )
-
-  FetchContent_MakeAvailable(VCPkg)
-
-  message ("Add Build VCPkg Finished")
-  message ("")
-endif (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
 #------------------------------------------------------------------------------
 
 
@@ -353,14 +332,6 @@ endif (BUILD3rd_Group2 OR BUILD3rd_HDF5)
 #------------------------------------------------------------------------------
 
 
-# CZMQ
-#------------------------------------------------------------------------------
-if (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
-  include(Inc/CZMQ.txt)
-endif (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
-#------------------------------------------------------------------------------
-
-
 # Eigen
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group3 OR BUILD3rd_Eigen)
@@ -484,6 +455,34 @@ if (BUILD3rd_Group7 OR BUILD3rd_RealSense)
   message ("Add Build RealSense Finished")
   message ("")
 endif (BUILD3rd_Group7 OR BUILD3rd_RealSense)
+#------------------------------------------------------------------------------
+
+
+# VCPkg
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
+  message ("")
+  message ("Add VCPkg to Build") 
+
+  FetchContent_Declare(
+    VCPkg
+    GIT_REPOSITORY  https://github.com/microsoft/vcpkg.git
+    GIT_TAG         fba75d09065fcc76a25dcf386b1d00d33f5175af # release 2024.2.14
+  )
+
+  FetchContent_MakeAvailable(VCPkg)
+
+  message ("Add Build VCPkg Finished")
+  message ("")
+endif (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
+#------------------------------------------------------------------------------
+
+
+# CZMQ
+#------------------------------------------------------------------------------
+if (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
+  include(Inc/CZMQ.txt)
+endif (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
 #------------------------------------------------------------------------------
 
 
