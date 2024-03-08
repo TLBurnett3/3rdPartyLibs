@@ -10,6 +10,8 @@ FetchContent_Declare(
   GIT_TAG        5adbf3765a57dc5931c2a3137390bfee2370c945 # release-2.30.1
   )
 
+set (SDL2_DISABLE_INSTALL       OFF)
+
 FetchContent_MakeAvailable(SDL)
 
 message ("Add Build SDL Finished")

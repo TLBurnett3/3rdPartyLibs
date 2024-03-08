@@ -1,0 +1,42 @@
+# OpenCV
+#------------------------------------------------------------------------------
+
+message ("")
+message ("Add OpenCV to Build") 
+
+FetchContent_Declare(
+  OpenCV_Contrib
+  GIT_REPOSITORY  https://github.com/opencv/opencv_contrib.git
+  GIT_TAG         c7602a8f74205e44389bd6a4e8d727d32e7e27b4 # release 4.9.0
+  )
+
+FetchContent_MakeAvailable(OpenCV_Contrib)
+
+FetchContent_Declare(
+  OpenCV
+  GIT_REPOSITORY  https://github.com/opencv/opencv.git
+  GIT_TAG         dad8af6b17f8e60d7b95a1203a1b4d22f56574cf # release 4.9.0
+  )
+  
+set (OPENCV_EXTRA_MODULES_PATH      ${FETCHCONTENT_BASE_DIR}/opencv_contrib-src/modules)
+set (WITH_GSTREAMER                 OFF)
+set (WITH_VTK                       OFF) 
+set (BUILD_EXAMPLES                 OFF)
+set (BUILD_TESTS                    OFF)
+set (BUILD_UNIT_TESTS               OFF)
+set (BUILD_opencv_java              OFF)
+set (BUILD_opencv_python            OFF)
+set (BUILD_opencv_hdf               OFF)  
+set (OPENCV_DNN_CUDA                OFF) 
+
+if (UNIX)
+  set (BUILD_opencv_apps            OFF)
+  set (WITH_EIGEN                   OFF)  # _mm intrinics undefined
+endif (UNIX) 
+
+FetchContent_MakeAvailable(OpenCV)
+
+message ("Add Build OpenCV Finished")
+message ("")
+
+#------------------------------------------------------------------------------

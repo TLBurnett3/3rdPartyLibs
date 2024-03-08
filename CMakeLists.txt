@@ -33,20 +33,22 @@ endif (UNIX)
 
 #------------------------------------------------------------------------------
 # Options
-# sudo make install InstallFlann
+# sudo make install InstallFlann InstallUSB
 option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
-option(BUILD3rd_Group4           "Build Group 4 Libraries"   ON)
-option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
+option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
+option(BUILD3rd_Group5           "Build Group 5 Libraries"   On)
 option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
 option(BUILD3rd_VCPkg            "Build VCPkg"               OFF)     
-option(BUILD3rd_GLM              "Build GLM"                 OFF)     
-option(BUILD3rd_GLFW             "Build GLFW"                OFF)     
-option(BUILD3rd_GLEW             "Build GLEW"                OFF)     
+option(BUILD3rd_GLM              "Build GLM"                 OFF)   
+option(BUILD3rd_GLEW             "Build GLEW"                OFF)   
+option(BUILD3rd_GLFW             "Build GLFW"                OFF)       
+option(BUILD3rd_GLUT             "Build GLUT"                OFF)     
+option(BUILD3rd_USB              "Build USB"                 OFF)     
 option(BUILD3rd_FreeType         "Build FreeType"            OFF)     
 option(BUILD3rd_Sodium           "Build Sodium"              OFF)     
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     
@@ -150,6 +152,27 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLM)
 #------------------------------------------------------------------------------
 
 
+# GLEW
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group1 OR BUILD3rd_GLEW)
+  message ("")
+  message("Add GLEW to Build")
+
+  FetchContent_Declare(
+    GLEW
+    GIT_REPOSITORY https://github.com/edoren/glew.git
+    GIT_TAG        5b995cab14f97231b48bc86b447be5e23b899626 # release-2.0.0
+  )
+
+  FetchContent_MakeAvailable(GLEW)
+  add_subdirectory(${FETCHCONTENT_BASE_DIR}/glew-src/build/cmake)
+
+  message ("Add Build GLEW Finished")
+  message ("")
+endif (BUILD3rd_Group1 OR BUILD3rd_GLEW)
+#------------------------------------------------------------------------------
+
+
 # GLFW
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_GLFW)
@@ -170,24 +193,19 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLFW)
 #------------------------------------------------------------------------------
 
 
-# GLEW
+# GLUT
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_GLEW)
-  message ("")
-  message("Add GLEW to Build")
+if (BUILD3rd_Group1 OR BUILD3rd_GLUT)
+  include(Inc/GLUT.txt)
+endif (BUILD3rd_Group1 OR BUILD3rd_GLUT)
+#------------------------------------------------------------------------------
 
-  FetchContent_Declare(
-    GLEW
-    GIT_REPOSITORY https://github.com/edoren/glew.git
-    GIT_TAG        5b995cab14f97231b48bc86b447be5e23b899626 # release-2.0.0
-  )
 
-  FetchContent_MakeAvailable(GLEW)
-  add_subdirectory(${FETCHCONTENT_BASE_DIR}/glew-src/build/cmake)
-
-  message ("Add Build GLEW Finished")
-  message ("")
-endif (BUILD3rd_Group1 OR BUILD3rd_GLEW)
+# USB
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group1 OR BUILD3rd_USB)
+  include(Inc/USB.txt)
+endif (BUILD3rd_Group1 OR BUILD3rd_USB)
 #------------------------------------------------------------------------------
 
 
@@ -214,26 +232,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_FreeType)
 # Sodium
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_Sodium)
-  message ("")
-  message("Add Sodium to Build")
-
-  FetchContent_Declare(
-    Sodium
-    GIT_REPOSITORY https://github.com/jedisct1/libsodium.git
-    GIT_TAG        fb4533b0a941b3a5b1db5687d1b008a5853d1f29 # release-1.0.19
-  )
-
-  FetchContent_MakeAvailable(Sodium)
-  ExternalProject_Add(Sodium
-                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/sodium-src
-                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/sodium-src/configure
-                      BUILD_COMMAND make
-                      INSTALL_COMMAND make install
-                      BUILD_IN_SOURCE 1
-                      )
-  
-  message ("Add Build Sodium Finished")
-  message ("")
+  include(Inc/Sodium.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_Sodium)
 #------------------------------------------------------------------------------
 
@@ -389,42 +388,7 @@ endif (BUILD3rd_Group4 OR BUILD3rd_VTK)
 # OpenCV
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
-  message ("")
-  message ("Add OpenCV to Build") 
-
-  FetchContent_Declare(
-    OpenCV_Contrib
-    GIT_REPOSITORY  https://github.com/opencv/opencv_contrib.git
-    GIT_TAG         c7602a8f74205e44389bd6a4e8d727d32e7e27b4 # release 4.9.0
-  )
-
-  FetchContent_MakeAvailable(OpenCV_Contrib)
-
-  FetchContent_Declare(
-    OpenCV
-    GIT_REPOSITORY  https://github.com/opencv/opencv.git
-    GIT_TAG         dad8af6b17f8e60d7b95a1203a1b4d22f56574cf # release 4.9.0
-  )
-  
-  set (OPENCV_EXTRA_MODULES_PATH      ${FETCHCONTENT_BASE_DIR}/opencv_contrib-src/modules)
-  set (WITH_GSTREAMER                 OFF)
-  set (WITH_VTK                       OFF)
-  if (UNIX)
-    set (BUILD_opencv_apps            OFF)
-    set (WITH_EIGEN                   OFF)  # _mm intrinics undefined
-  endif (UNIX)  
-  set (BUILD_EXAMPLES                 OFF)
-  set (BUILD_TESTS                    OFF)
-  set (BUILD_UNIT_TESTS               OFF)
-  set (BUILD_opencv_java              OFF)
-  set (BUILD_opencv_python            OFF)
-  set (BUILD_opencv_hdf               OFF)  
-  set (OPENCV_DNN_CUDA                OFF) 
-
-  FetchContent_MakeAvailable(OpenCV)
-
-  message ("Add Build OpenCV Finished")
-  message ("")
+  include(Inc/OpenCV.txt)
 endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 
@@ -432,23 +396,7 @@ endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
 # Bullet
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group5 OR BUILD3rd_Bullet)
-  message ("")
-  message("Add Bullet to Build")
- 
-  FetchContent_Declare(
-    Bullet
-    GIT_REPOSITORY https://github.com/bulletphysics/bullet3.git
-    GIT_TAG        2c204c49e56ed15ec5fcfa71d199ab6d6570b3f5 # release-3.2.5
-  )
-
-  set (BUILD_BULLET2_DEMOS              OFF)
-  set (BUILD_UNIT_TESTS                 OFF)
-  set (INSTALL_LIBS                     ON)
-
-  FetchContent_MakeAvailable(Bullet)
-
-  message ("Add Build Bullet Finished")
-  message ("")
+  include(Inc/Bullet.txt)
 endif (BUILD3rd_Group5 OR BUILD3rd_Bullet)
 #------------------------------------------------------------------------------
 
@@ -456,19 +404,7 @@ endif (BUILD3rd_Group5 OR BUILD3rd_Bullet)
 # Assimp
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group5 OR BUILD3rd_Assimp)
-  message ("")
-  message("Add Assimp to Build")
- 
-  FetchContent_Declare(
-    Assimp
-    GIT_REPOSITORY https://github.com/assimp/assimp.git
-    GIT_TAG        6a08c39e3a91ef385e76515cfad86aca4bfd57ff # release-5.3.1
-  )
-
-  FetchContent_MakeAvailable(Assimp)
-
-  message ("Add Build Assimp Finished")
-  message ("")
+  include(Inc/Assimp.txt)
 endif (BUILD3rd_Group5 OR BUILD3rd_Assimp)
 #------------------------------------------------------------------------------
 

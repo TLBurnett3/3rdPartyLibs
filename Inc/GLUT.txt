@@ -1,0 +1,17 @@
+# GLUT
+#------------------------------------------------------------------------------
+message ("")
+message("Add GLUT to Build")
+ 
+FetchContent_Declare(
+  GLUT
+  GIT_REPOSITORY https://github.com/freeglut/freeglut.git
+  GIT_TAG        63c0e78d84ecbfcf8accd8bac04404427899053b # release-3.4.0
+  )
+
+FetchContent_MakeAvailable(GLUT)
+  
+message ("Add Build GLUT Finished")
+message ("")
+#------------------------------------------------------------------------------
+
