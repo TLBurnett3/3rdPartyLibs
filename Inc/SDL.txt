@@ -1,0 +1,19 @@
+# SDL
+#------------------------------------------------------------------------------
+
+message ("")
+message("Add SDL to Build")
+
+FetchContent_Declare(
+  SDL
+  GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+  GIT_TAG        5adbf3765a57dc5931c2a3137390bfee2370c945 # release-2.30.1
+  )
+
+FetchContent_MakeAvailable(SDL)
+
+message ("Add Build SDL Finished")
+message ("")
+
+#------------------------------------------------------------------------------
+

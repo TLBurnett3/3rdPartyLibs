@@ -37,9 +37,9 @@ endif (UNIX)
 option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
-option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
+option(BUILD3rd_Group4           "Build Group 4 Libraries"   ON)
 option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
-option(BUILD3rd_Group6           "Build Group 6 Libraries"   ON) 
+option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
@@ -56,9 +56,9 @@ option(BUILD3rd_Flann            "Build Flann"               OFF)   # make Insta
 # Group 2
 option(BUILD3rd_HDF5             "Build HDF5"                OFF)   # Needs to be build by itself
 # Group 3
-option(BUILD3rd_CZMQ             "Build CZMQ"                OFF)     
 option(BUILD3rd_Eigen            "Build Eigen"               OFF)     
 # Group 4
+option(BUILD3rd_SDL              "Build SDL"                 OFF) 
 option(BUILD3rd_VTK              "Build VTK"                 OFF)     
 # Group 5
 option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)      
@@ -68,7 +68,10 @@ option(BUILD3rd_Assimp           "Build Assimp"              OFF)
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)     
 option(BUILD3rd_PCL              "Build PCL"                 OFF)     
 # Group 7
-option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict     
+option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict 
+
+
+option(BUILD3rd_CZMQ             "Build CZMQ"                OFF) 
 #------------------------------------------------------------------------------
 
 
@@ -353,67 +356,39 @@ endif (BUILD3rd_Group2 OR BUILD3rd_HDF5)
 
 # CZMQ
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group3 OR BUILD3rd_CZMQ)
-  message ("")
-  message("Add CZMQ to Build")
-
-  FetchContent_Declare(
-    CZMQ
-    GIT_REPOSITORY https://github.com/zeromq/czmq.git
-    GIT_TAG        4a50c2153586cf510d6cc3fcfbb9f5ea2e02c419 # release-4.2.1
-  )
-
-  FetchContent_MakeAvailable(CZMQ)
-
-  message ("Add Build CZMQ Finished")
-  message ("")
-endif (BUILD3rd_Group3 OR BUILD3rd_CZMQ)
+if (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
+  include(Inc/CZMQ.txt)
+endif (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
 #------------------------------------------------------------------------------
 
 
 # Eigen
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group3 OR BUILD3rd_Eigen)
-  message ("")
-  message("Add Eigen to Build")
-
-  FetchContent_Declare(
-    Eigen
-    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-    #GIT_TAG        0fd6b4f71dd85b2009ee4d1aeb296e2c11fc9d68 # release-3.3.9
-  )
-
-  FetchContent_MakeAvailable(Eigen)
-
-  message ("Add Build Eigen Finished")
-  message ("")
+  include(Inc/Eigen.txt)
 endif (BUILD3rd_Group3 OR BUILD3rd_Eigen)
+#------------------------------------------------------------------------------
+
+
+# SDL
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group4 OR BUILD3rd_SDL)
+  include(Inc/SDL.txt)
+endif (BUILD3rd_Group4 OR BUILD3rd_SDL)
 #------------------------------------------------------------------------------
 
 
 # VTK
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group4 OR BUILD3rd_VTK)
-  message ("")
-  message("Add VTK to Build")
- 
-  FetchContent_Declare(
-    VTK
-    GIT_REPOSITORY https://gitlab.kitware.com/vtk/vtk.git
-    GIT_TAG        357d9efeed29cba6383ce626575f1a5f1ac1eefb # release-9.3.0
-  )
-
-  FetchContent_MakeAvailable(VTK)
-  
-  message ("Add Build VTK Finished")
-  message ("")
+  include(Inc/VTK.txt)
 endif (BUILD3rd_Group4 OR BUILD3rd_VTK)
 #------------------------------------------------------------------------------
 
 
 # OpenCV
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group8 OR BUILD3rd_OpenCV)
+if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
   message ("")
   message ("Add OpenCV to Build") 
 
@@ -450,7 +425,7 @@ if (BUILD3rd_Group8 OR BUILD3rd_OpenCV)
 
   message ("Add Build OpenCV Finished")
   message ("")
-endif (BUILD3rd_Group8 OR BUILD3rd_OpenCV)
+endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 
 

@@ -1,0 +1,16 @@
+# VTK
+#------------------------------------------------------------------------------
+message ("")
+message("Add VTK to Build")
+ 
+FetchContent_Declare(
+  VTK
+  GIT_REPOSITORY https://gitlab.kitware.com/vtk/vtk.git
+  GIT_TAG        357d9efeed29cba6383ce626575f1a5f1ac1eefb # release-9.3.0
+  )
+
+FetchContent_MakeAvailable(VTK)
+  
+message ("Add Build VTK Finished")
+message ("")
+#------------------------------------------------------------------------------
