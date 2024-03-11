@@ -1,0 +1,20 @@
+# PCL
+#------------------------------------------------------------------------------
+message ("")
+message("Add PCL to Build")
+ 
+FetchContent_Declare(
+  PCL
+  GIT_REPOSITORY https://github.com/PointCloudLibrary/pcl.git
+  GIT_TAG        f62c018b4fc7df3dc2c096918a8462a190f28bb8 # release-1.14.0
+  )
+
+set (WITH_VTK   OFF)
+set (WITH_CUDA  OFF)
+
+FetchContent_MakeAvailable(PCL)
+
+message ("Add Build PCL Finished")
+message ("")
+#------------------------------------------------------------------------------
+

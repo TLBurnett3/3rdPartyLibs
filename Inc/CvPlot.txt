@@ -1,0 +1,46 @@
+# CvPlot
+#------------------------------------------------------------------------------
+message ("")
+message("Add CvPlot to Build")
+
+FetchContent_Declare(
+  CvPlot
+  URL https://github.com/Profactor/cv-plot/archive/refs/tags/v1.2.2.tar.gz
+  )
+  
+  FetchContent_Populate(CvPlot)
+
+  add_custom_target(Install_CvPlot)
+
+  add_custom_command(TARGET Install_CvPlot POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${FETCHCONTENT_BASE_DIR}/cvplot-src/CvPlot/inc/CvPlot ${CMAKE_INSTALL_PREFIX}/include/CvPlot
+  )
+
+#FetchContent_Declare(
+#  CvPlot
+#  GIT_REPOSITORY https://github.com/Profactor/cv-plot.git
+#  GIT_TAG        92ea307137e1abc3d49a5018ef80f4fbf189196b # release-1.2.2
+#  EXCLUDE_FROM_ALL 
+#  )
+
+#set (CVPLOT_HEADER_ONLY   OFF)
+#set (CVPLOT_USE_CONAN     OFF)
+#set (OpenCV_DIR           ${CMAKE_INSTALL_PREFIX}/x64/vc16/lib)
+
+#LIST (APPEND CMAKE_MODULE_PATH ${OpenCV_DIR})
+#LIST (APPEND CMAKE_PREFIX_PATH ${OpenCV_DIR})
+
+#message ("CVPLOT_HEADER_ONLY:     " ${CVPLOT_HEADER_ONLY})
+#message ("CVPLOT_USE_CONAN:       " ${CVPLOT_USE_CONAN})
+#message ("OpenCV_DIR:             " ${OpenCV_DIR})
+#message ("CMAKE_MODULE_PATH:      " ${CMAKE_MODULE_PATH})
+#message ("CMAKE_PREFIX_PATH:      " ${CMAKE_PREFIX_PATH})
+
+#FetchContent_MakeAvailable(CvPlot)
+
+message ("Add Build CvPlot Finished")
+message ("Need to build target: Install_CvPlot")
+message ("")
+#------------------------------------------------------------------------------
+

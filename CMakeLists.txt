@@ -12,14 +12,17 @@ endif (WIN32)
 set (CMAKE_DEBUG_POSTFIX      d)
 set (CMAKE_CXX_STANDARD       17)
 
-set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
+set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}
+                              ${CMAKE_INSTALL_PREFIX}/cmake
                               ${CMAKE_INSTALL_PREFIX}/lib/cmake
                               )
 
-set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}/cmake
+set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}
+                              ${CMAKE_INSTALL_PREFIX}/cmake
                               ${CMAKE_INSTALL_PREFIX}/lib/cmake
                               )
 
+                              
 set (ALLOW_DUPLICATE_CUSTOM_TARGETS OFF)
 
 if (UNIX)
@@ -62,11 +65,11 @@ option(BUILD3rd_Eigen            "Build Eigen"               OFF)
 option(BUILD3rd_SDL              "Build SDL"                 OFF) 
 option(BUILD3rd_VTK              "Build VTK"                 OFF)     
 # Group 5
-option(BUILD3rd_OpenCV           "Build OpenCV"              OFF)      
+option(BUILD3rd_OpenCV           "Build OpenCV"              OFF) 
+option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)       
 option(BUILD3rd_Bullet           "Build Bullet"              OFF)     
 option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
 # Group 6
-option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)     
 option(BUILD3rd_PCL              "Build PCL"                 OFF)     
 # Group 7
 option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict 
@@ -307,6 +310,7 @@ if (BUILD3rd_Group1 OR BUILD3rd_Flann)
                      ${FETCHCONTENT_BASE_DIR}/flann-src/src/cpp/flann ${CMAKE_INSTALL_PREFIX}/include/flann)       
 
   message ("Add Build Flann Finished")
+  message ("To Finish installing Flann: sudo make InstallFlann")
   message ("")
 endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
 #------------------------------------------------------------------------------
@@ -364,6 +368,14 @@ endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 
 
+# CvPlot
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
+  include(Inc/CvPlot.txt)
+endif (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
+#------------------------------------------------------------------------------
+
+
 # Bullet
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group5 OR BUILD3rd_Bullet)
@@ -380,51 +392,11 @@ endif (BUILD3rd_Group5 OR BUILD3rd_Assimp)
 #------------------------------------------------------------------------------
 
 
-# CvPlot
-#------------------------------------------------------------------------------
-if (BUILD3rd_Group8 OR BUILD3rd_CvPlot)
-  message ("")
-  message("Add CvPlot to Build")
- 
-  FetchContent_Declare(
-    CvPlot
-    GIT_REPOSITORY https://github.com/Profactor/cv-plot.git
-    GIT_TAG        92ea307137e1abc3d49a5018ef80f4fbf189196b # release-1.2.2
-  )
-
-  set (CVPLOT_USE_CONAN OFF)  
-
-  FetchContent_MakeAvailable(CvPlot)
-
-  target_compile_options(CvPlot -DCVPLOT_USE_CONAN=OFF) 
-
-  message ("Add Build CvPlot Finished")
-  message ("")
-endif (BUILD3rd_Group8 OR BUILD3rd_CvPlot)
-#------------------------------------------------------------------------------
-
-
 # PCL
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group6 OR BUILD3rd_PCL)
-  message ("")
-  message("Add PCL to Build")
- 
-  FetchContent_Declare(
-    PCL
-    GIT_REPOSITORY https://github.com/PointCloudLibrary/pcl.git
-    GIT_TAG        f62c018b4fc7df3dc2c096918a8462a190f28bb8 # release-1.14.0
-  )
-
-  set (WITH_VTK   OFF)
-  set (WITH_CUDA  OFF)
-
-  FetchContent_MakeAvailable(PCL)
-
-  message ("Add Build PCL Finished")
-  message ("")
+  include(Inc/PCL.txt)
 endif (BUILD3rd_Group6 OR BUILD3rd_PCL)
-
 #------------------------------------------------------------------------------
 
 
@@ -458,9 +430,10 @@ endif (BUILD3rd_Group7 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
 
 
+
 # VCPkg
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
+if (BUILD3rd_GroupN OR BUILD3rd_VCPkg)
   message ("")
   message ("Add VCPkg to Build") 
 
@@ -474,7 +447,7 @@ if (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
 
   message ("Add Build VCPkg Finished")
   message ("")
-endif (BUILD3rd_Group1 OR BUILD3rd_VCPkg)
+endif (BUILD3rd_GroupN OR BUILD3rd_VCPkg)
 #------------------------------------------------------------------------------
 
 
@@ -485,14 +458,5 @@ if (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
 endif (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
 #------------------------------------------------------------------------------
 
-
-# Message
-#------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_Flann)
-message ("To Finish installing Flann: sudo make InstallFlann")
-endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
-
-message("")
-message("")
 
 
