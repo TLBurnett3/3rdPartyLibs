@@ -1,0 +1,15 @@
+message ("")
+message("Add GLM to Build")
+
+set (GLM_BUILD_INSTALL ON)
+
+FetchContent_Declare(
+  glm
+  GIT_REPOSITORY https://github.com/g-truc/glm.git
+  GIT_TAG        0af55ccecd98d4e5a8d1fad7de25ba429d60e863 # release-1.0.1
+  )
+
+FetchContent_MakeAvailable(glm)
+
+message ("Add Build GLM Finished")
+message ("")

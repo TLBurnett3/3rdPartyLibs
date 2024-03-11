@@ -26,11 +26,12 @@ set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}
 set (ALLOW_DUPLICATE_CUSTOM_TARGETS OFF)
 
 if (UNIX)
-set(CMAKE_C_COMPILER                      /usr/bin/gcc-8 CACHE PATH "" FORCE)
-set(CMAKE_CXX_COMPILER                    /usr/bin/g++-8 CACHE PATH "" FORCE)
-set(CMAKE_CXX_FLAGS                       "-fPIC")
-set(CMAKE_CXX_FLAGS_DEBUG                 "-g")
-set(CMAKE_CXX_FLAGS_RELEASE               "-O3")  
+  set (CMAKE_C_COMPILER                      /usr/bin/gcc-8 CACHE PATH "" FORCE)
+  set (CMAKE_CXX_COMPILER                    /usr/bin/g++-8 CACHE PATH "" FORCE)
+  #set (CMAKE_CXX_FLAGS                       "-fpic")
+  set (CMAKE_CXX_FLAGS_DEBUG                 "-g")
+  set (CMAKE_CXX_FLAGS_RELEASE               "-O3")  
+  set(CMAKE_POSITION_INDEPENDENT_CODE        ON)
 endif (UNIX)
 
 
@@ -40,8 +41,8 @@ endif (UNIX)
 option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
-option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
-option(BUILD3rd_Group5           "Build Group 5 Libraries"   ON)
+option(BUILD3rd_Group4           "Build Group 4 Libraries"   ON)
+option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
 option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
 
 # Group 1
@@ -67,7 +68,7 @@ option(BUILD3rd_VTK              "Build VTK"                 OFF)
 # Group 5
 option(BUILD3rd_OpenCV           "Build OpenCV"              OFF) 
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)       
-option(BUILD3rd_Bullet           "Build Bullet"              OFF)     
+option(BUILD3rd_Bullet           "Build Bullet"              OFF)     # this may have to go lower
 option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
 # Group 6
 option(BUILD3rd_PCL              "Build PCL"                 OFF)     
@@ -95,19 +96,7 @@ message ("")
 # zLib
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_zLIB)
-  message ("")
-  message ("Add zLib to Build") 
-
-  FetchContent_Declare(
-    zLib
-    GIT_REPOSITORY  https://github.com/madler/zlib.git
-    GIT_TAG         51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf # release 1.3.1
-  )
-
-  FetchContent_MakeAvailable(zLib)
-
-  message ("Add Build zLib Finished")
-  message ("")
+  include(Inc/zLib.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_zLIB)
 #------------------------------------------------------------------------------
 
@@ -115,21 +104,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_zLIB)
 # GLM
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_GLM)
-  message ("")
-  message("Add GLM to Build")
-
-  set (GLM_BUILD_INSTALL ON)
-
-  FetchContent_Declare(
-    glm
-    GIT_REPOSITORY https://github.com/g-truc/glm.git
-    GIT_TAG        0af55ccecd98d4e5a8d1fad7de25ba429d60e863 # release-1.0.1
-  )
-
-  FetchContent_MakeAvailable(glm)
-
-  message ("Add Build GLM Finished")
-  message ("")
+  include(Inc/GLM.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_GLM)
 #------------------------------------------------------------------------------
 
@@ -185,28 +160,16 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLUT)
 
 # USB
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_USB)
+if (BUILD3rd_GroupN OR BUILD3rd_USB)
   include(Inc/USB.txt)
-endif (BUILD3rd_Group1 OR BUILD3rd_USB)
+endif (BUILD3rd_GroupN OR BUILD3rd_USB)
 #------------------------------------------------------------------------------
 
 
 # FreeType
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_FreeType)
-  message ("")
-  message("Add FreeType to Build")
-
-  FetchContent_Declare(
-    FreeType
-    GIT_REPOSITORY https://gitlab.freedesktop.org/freetype/freetype.git
-    GIT_TAG        920c5502cc3ddda88f6c7d85ee834ac611bb11cc # release-2.13.2
-  )
-
-  FetchContent_MakeAvailable(FreeType)
-  
-  message ("Add Build FreeType Finished")
-  message ("")
+  include(Inc/FreeType.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_FreeType)
 #------------------------------------------------------------------------------
 
@@ -284,34 +247,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_ZMQ)
 # Flann
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_Flann)
-  message ("")
-  message ("Add Flann to Build") 
-
-  FetchContent_Declare(
-    Flann
-    GIT_REPOSITORY https://github.com/flann-lib/flann.git
-    GIT_TAG        06a49513138009d19a1f4e0ace67fbff13270c69 # release 1.9.1
-  )
-
-  set (BUILD_C_BINDINGS         OFF)
-  set (BUILD_PYTHON_BINDINGS    OFF)
-  set (BUILD_MATLAB_BINDINGS    OFF)
-  set (BUILD_CUDA_LIB           OFF)
-  set (BUILD_EXAMPLES           OFF)
-  set (BUILD_TESTS              OFF)
-  set (BUILD_DOC                OFF)
-  set (USE_OPENMP               OFF)
-  set (USE_MPI                  OFF)
-
-  FetchContent_Populate(Flann)
-  add_custom_target("InstallFlann")
-  add_custom_command(TARGET "InstallFlann"    
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                     ${FETCHCONTENT_BASE_DIR}/flann-src/src/cpp/flann ${CMAKE_INSTALL_PREFIX}/include/flann)       
-
-  message ("Add Build Flann Finished")
-  message ("To Finish installing Flann: sudo make InstallFlann")
-  message ("")
+  include(Inc/Flann.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
 #------------------------------------------------------------------------------
 
@@ -319,19 +255,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
 # HDF5
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group2 OR BUILD3rd_HDF5)
-  message ("")
-  message ("Add HDF5 to Build") 
-
-  FetchContent_Declare(
-    HDF5
-    GIT_REPOSITORY  https://github.com/HDFGroup/hdf5.git
-    GIT_TAG         8b5cac6bc498546efa5639f99bb7dbbc1a2d5d90 # release 1.14.3
-  )
-  
-  FetchContent_MakeAvailable(HDF5)
-  
-  message ("Add Build HDF5 Finished")
-  message ("")
+  include(Inc/HDF5.txt)
 endif (BUILD3rd_Group2 OR BUILD3rd_HDF5)
 #------------------------------------------------------------------------------
 
@@ -372,7 +296,7 @@ endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
   include(Inc/CvPlot.txt)
-endif (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
+endif (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
 #------------------------------------------------------------------------------
 
 
@@ -458,5 +382,25 @@ if (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
 endif (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
 #------------------------------------------------------------------------------
 
+
+message ("")
+message ("")
+
+if (BUILD3rd_Group1 OR BUILD3rd_Flann)
+  message ("To finish installing Flann: make InstallFlann")
+endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
+
+if (WIN32)
+if (BUILD3rd_Group1 OR BUILD3rd_USB)
+message ("To finish installing USB: make InstallUSB")
+endif (BUILD3rd_Group1 OR BUILD3rd_USB)
+endif (WIN32)
+
+if (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
+  message ("To finish installing Flann: make InstallCvPlot")
+endif (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
+
+message ("")
+message ("")
 
 

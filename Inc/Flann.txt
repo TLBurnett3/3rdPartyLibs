@@ -1,0 +1,27 @@
+message ("")
+message ("Add Flann to Build") 
+
+FetchContent_Declare(
+  Flann
+  GIT_REPOSITORY https://github.com/flann-lib/flann.git
+  GIT_TAG        06a49513138009d19a1f4e0ace67fbff13270c69 # release 1.9.1
+  )
+
+set (BUILD_C_BINDINGS         OFF)
+set (BUILD_PYTHON_BINDINGS    OFF)
+set (BUILD_MATLAB_BINDINGS    OFF)
+set (BUILD_CUDA_LIB           OFF)
+set (BUILD_EXAMPLES           OFF)
+set (BUILD_TESTS              OFF)
+set (BUILD_DOC                OFF)
+set (USE_OPENMP               OFF)
+set (USE_MPI                  OFF)
+
+FetchContent_Populate(Flann)
+add_custom_target("InstallFlann")
+add_custom_command(TARGET "InstallFlann"    
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   ${FETCHCONTENT_BASE_DIR}/flann-src/src/cpp/flann ${CMAKE_INSTALL_PREFIX}/include/flann)       
+
+message ("Add Build Flann Finished")
+message ("")

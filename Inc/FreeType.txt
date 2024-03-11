@@ -1,0 +1,13 @@
+message ("")
+message("Add FreeType to Build")
+
+FetchContent_Declare(
+  FreeType
+  GIT_REPOSITORY https://gitlab.freedesktop.org/freetype/freetype.git
+  GIT_TAG        920c5502cc3ddda88f6c7d85ee834ac611bb11cc # release-2.13.2
+  )
+
+FetchContent_MakeAvailable(FreeType)
+  
+message ("Add Build FreeType Finished")
+message ("")

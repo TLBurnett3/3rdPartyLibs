@@ -13,8 +13,8 @@ FetchContent_MakeAvailable(USB)
 
 if (UNIX)
   ExternalProject_Add(USB
-                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/USB-src
-                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/USB-src/configure
+                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/usb-src
+                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/usb-src/bootstrap.sh
                       BUILD_COMMAND make
                       INSTALL_COMMAND make install
                       BUILD_IN_SOURCE 1
