@@ -1,0 +1,32 @@
+message ("")
+message("Add RealSense to Build")
+ 
+FetchContent_Declare(
+  RealSense
+  GIT_REPOSITORY https://github.com/IntelRealSense/librealsense.git
+  GIT_TAG        2dbaaf5964490cb02f811cf2ed38c8a893f5c027 # release-2.54.2
+  )
+
+set (BUILD_SHARED_LIBS          ON)
+
+if (UNIX)
+  set (BUILD_EXAMPLES             OFF)
+  set (BUILD_GRAPHICAL_EXAMPLES   OFF)
+  set (BUILD_GLFW                 OFF)
+  set (BUILD_TOOLS                OFF)
+
+  LIST (APPEND CMAKE_MODULE_PATH    ${FETCHCONTENT_BASE_DIR}/realsense-src/CMake)
+  LIST (APPEND CMAKE_PREFIX_PATH    ${FETCHCONTENT_BASE_DIR}/realsense-src/CMake)
+  
+  message ("CMAKE_MODULE_PATH:      " ${CMAKE_MODULE_PATH})
+  message ("CMAKE_PREFIX_PATH:      " ${CMAKE_PREFIX_PATH})
+endif (UNIX)
+
+#FetchContent_Populate(RealSense)
+
+#add_subdirectory(${FETCHCONTENT_BASE_DIR}/realsense-src ${FETCHCONTENT_BASE_DIR}/realsense-build)
+
+FetchContent_MakeAvailable(RealSense)
+
+message ("Add Build RealSense Finished")
+message ("")

@@ -17,18 +17,14 @@ set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}
                               ${CMAKE_INSTALL_PREFIX}/lib/cmake
                               )
 
-set (CMAKE_PREFIX_PATH        ${CMAKE_INSTALL_PREFIX}
-                              ${CMAKE_INSTALL_PREFIX}/cmake
-                              ${CMAKE_INSTALL_PREFIX}/lib/cmake
+set (CMAKE_PREFIX_PATH        ${CMAKE_MODULE_PATH}
                               )
-
                               
 set (ALLOW_DUPLICATE_CUSTOM_TARGETS OFF)
 
 if (UNIX)
   set (CMAKE_C_COMPILER                      /usr/bin/gcc-8 CACHE PATH "" FORCE)
   set (CMAKE_CXX_COMPILER                    /usr/bin/g++-8 CACHE PATH "" FORCE)
-  #set (CMAKE_CXX_FLAGS                       "-fpic")
   set (CMAKE_CXX_FLAGS_DEBUG                 "-g")
   set (CMAKE_CXX_FLAGS_RELEASE               "-O3")  
   set(CMAKE_POSITION_INDEPENDENT_CODE        ON)
@@ -43,7 +39,8 @@ option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
 option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
-option(BUILD3rd_Group6           "Build Group 6 Libraries"   ON) 
+option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
+option(BUILD3rd_Group7           "Build Group 7 Libraries"   ON) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
@@ -327,29 +324,7 @@ endif (BUILD3rd_Group6 OR BUILD3rd_PCL)
 # RealSense
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group7 OR BUILD3rd_RealSense)
-  message ("")
-  message("Add RealSense to Build")
- 
-  FetchContent_Declare(
-    RealSense
-    GIT_REPOSITORY https://github.com/IntelRealSense/librealsense.git
-    GIT_TAG        2dbaaf5964490cb02f811cf2ed38c8a893f5c027 # release-2.54.2
-  )
-
-  FetchContent_Populate(RealSense)
-
-  set (BUILD_SHARED_LIBS          ON)
-  set (BUILD_EXAMPLES             OFF)
-  set (BUILD_GRAPHICAL_EXAMPLES   OFF)
-  set (BUILD_GLFW                 OFF)
-
-  add_subdirectory(${FETCHCONTENT_BASE_DIR}/realsense-src ${FETCHCONTENT_BASE_DIR}/realsense-build)
-
-  #FetchContent_MakeAvailable(RealSense)
-
-
-  message ("Add Build RealSense Finished")
-  message ("")
+  include(Inc/RealSense.txt)
 endif (BUILD3rd_Group7 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
 
