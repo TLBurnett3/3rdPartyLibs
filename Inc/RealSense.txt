@@ -1,6 +1,7 @@
 message ("")
 message("Add RealSense to Build")
- 
+
+
 FetchContent_Declare(
   RealSense
   GIT_REPOSITORY https://github.com/IntelRealSense/librealsense.git
@@ -10,23 +11,15 @@ FetchContent_Declare(
 set (BUILD_SHARED_LIBS          ON)
 
 if (UNIX)
-  set (BUILD_EXAMPLES             OFF)
-  set (BUILD_GRAPHICAL_EXAMPLES   OFF)
-  set (BUILD_GLFW                 OFF)
-  set (BUILD_TOOLS                OFF)
-
-  LIST (APPEND CMAKE_MODULE_PATH    ${FETCHCONTENT_BASE_DIR}/realsense-src/CMake)
-  LIST (APPEND CMAKE_PREFIX_PATH    ${FETCHCONTENT_BASE_DIR}/realsense-src/CMake)
-  
-  message ("CMAKE_MODULE_PATH:      " ${CMAKE_MODULE_PATH})
-  message ("CMAKE_PREFIX_PATH:      " ${CMAKE_PREFIX_PATH})
+#  set (BUILD_EXAMPLES             OFF)
+#  set (BUILD_GRAPHICAL_EXAMPLES   OFF)
+#  set (BUILD_GLFW                 OFF)
+#  set (BUILD_TOOLS                OFF)
 endif (UNIX)
-
-#FetchContent_Populate(RealSense)
-
-#add_subdirectory(${FETCHCONTENT_BASE_DIR}/realsense-src ${FETCHCONTENT_BASE_DIR}/realsense-build)
 
 FetchContent_MakeAvailable(RealSense)
 
 message ("Add Build RealSense Finished")
+message ("RealSense needs to be built and installed from the ${FETCHCONTENT_BASE_DIR}/realsense-src directory")
+message ("Because of the way it looks for opengl_config.cmake")
 message ("")
