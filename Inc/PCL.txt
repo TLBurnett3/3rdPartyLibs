@@ -12,6 +12,9 @@ FetchContent_Declare(
 set (WITH_VTK   OFF)
 set (WITH_CUDA  OFF)
 
+LIST (APPEND CMAKE_MODULE_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
+LIST (APPEND CMAKE_PREFIX_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
+
 FetchContent_MakeAvailable(PCL)
 
 message ("Add Build PCL Finished")

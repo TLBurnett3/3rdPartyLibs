@@ -41,9 +41,9 @@ endif (UNIX)
 option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
-option(BUILD3rd_Group4           "Build Group 4 Libraries"   ON)
+option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
 option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
-option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
+option(BUILD3rd_Group6           "Build Group 6 Libraries"   ON) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
