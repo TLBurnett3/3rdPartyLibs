@@ -40,7 +40,7 @@ option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
 option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
 option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
-option(BUILD3rd_Group7           "Build Group 7 Libraries"   ON) 
+option(BUILD3rd_Group7           "Build Group 7 Libraries"   OFF) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
@@ -109,20 +109,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLM)
 # GLEW
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_GLEW)
-  message ("")
-  message("Add GLEW to Build")
-
-  FetchContent_Declare(
-    GLEW
-    GIT_REPOSITORY https://github.com/edoren/glew.git
-    GIT_TAG        5b995cab14f97231b48bc86b447be5e23b899626 # release-2.0.0
-  )
-
-  FetchContent_MakeAvailable(GLEW)
-  add_subdirectory(${FETCHCONTENT_BASE_DIR}/glew-src/build/cmake)
-
-  message ("Add Build GLEW Finished")
-  message ("")
+  include(Inc/GLEW.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_GLEW)
 #------------------------------------------------------------------------------
 
