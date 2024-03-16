@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 
+set (CMAKE_GENERATOR_PLATFORM x64)
+
 project(3rdPartyLibs)
 
 include(FetchContent)
@@ -11,6 +13,7 @@ endif (WIN32)
 
 set (CMAKE_DEBUG_POSTFIX      d)
 set (CMAKE_CXX_STANDARD       17)
+
 
 set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}
                               ${CMAKE_INSTALL_PREFIX}/cmake
@@ -63,7 +66,7 @@ option(BUILD3rd_Eigen            "Build Eigen"               OFF)
 option(BUILD3rd_SDL              "Build SDL"                 OFF) 
 option(BUILD3rd_VTK              "Build VTK"                 OFF)     
 # Group 5
-option(BUILD3rd_OpenCV           "Build OpenCV"              OFF) 
+option(BUILD3rd_OpenCV           "Build OpenCV"              ON) 
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)       
 option(BUILD3rd_Bullet           "Build Bullet"              OFF)     # this may have to go lower
 option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
