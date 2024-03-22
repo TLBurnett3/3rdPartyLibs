@@ -2,7 +2,16 @@
 #------------------------------------------------------------------------------
 message ("")
 message("Add PCL to Build")
+
+set(Eigen3_DIR  ${CMAKE_INSTALL_PREFIX}/include/eigen3)
+
+LIST (APPEND CMAKE_MODULE_PATH    ${CMAKE_INSTALL_PREFIX}/share/eigen3/cmake)
+LIST (APPEND CMAKE_PREFIX_PATH    ${CMAKE_INSTALL_PREFIX}/share/eigen3/cmake)
+LIST (APPEND CMAKE_MODULE_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
+LIST (APPEND CMAKE_PREFIX_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
  
+message (${CMAKE_PREFIX_PATH})
+
 FetchContent_Declare(
   PCL
   GIT_REPOSITORY https://github.com/PointCloudLibrary/pcl.git
@@ -11,9 +20,6 @@ FetchContent_Declare(
 
 set (WITH_VTK   OFF)
 set (WITH_CUDA  OFF)
-
-LIST (APPEND CMAKE_MODULE_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
-LIST (APPEND CMAKE_PREFIX_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
 
 FetchContent_MakeAvailable(PCL)
 

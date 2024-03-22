@@ -2,17 +2,24 @@
 message ("")
 message("Add GLEW to Build")
 
+ifdef (WIN32)
 FetchContent_Declare(
   GLEW
-  GIT_REPOSITORY https://github.com/nigels-com/glew.git
-  GIT_TAG        3a8eff77da3658c13fbd3634c943d5251d76322c # release-2.1.0
+  URL       https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0-win32.zip
   )
 
-FetchContent_MakeAvailable(GLEW)
-add_subdirectory(${FETCHCONTENT_BASE_DIR}/glew-src/build/cmake)
+  FetchContent_Populate(GLEW)
+endif (WIN32)
+
+#FetchContent_Declare(
+#  GLEW
+#  GIT_REPOSITORY https://github.com/nigels-com/glew.git
+#  GIT_TAG        3a8eff77da3658c13fbd3634c943d5251d76322c # release-2.1.0
+#  )
+
+#FetchContent_MakeAvailable(GLEW)
+#add_subdirectory(${FETCHCONTENT_BASE_DIR}/glew-src/build/cmake)
 
 message ("Add Build GLEW Finished")
 message ("")
 
-
-#https://github.com/nigels-com/glew/commit/3a8eff77da3658c13fbd3634c943d5251d76322c

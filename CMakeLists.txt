@@ -17,7 +17,8 @@ set (CMAKE_CXX_STANDARD       17)
 
 set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}
                               ${CMAKE_INSTALL_PREFIX}/cmake
-                              ${CMAKE_INSTALL_PREFIX}/lib/cmake
+                              ${CMAKE_INSTALL_PREFIX}/lib/cmake                              
+                              ${CMAKE_INSTALL_PREFIX}/share
                               )
 
 set (CMAKE_PREFIX_PATH        ${CMAKE_MODULE_PATH}
@@ -44,6 +45,7 @@ option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
 option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
 option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
 option(BUILD3rd_Group7           "Build Group 7 Libraries"   OFF) 
+option(BUILD3rd_Group8           "Build Group 8 Libraries"   OFF) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
@@ -51,7 +53,7 @@ option(BUILD3rd_GLM              "Build GLM"                 OFF)
 option(BUILD3rd_GLEW             "Build GLEW"                OFF)   
 option(BUILD3rd_GLFW             "Build GLFW"                OFF)       
 option(BUILD3rd_GLUT             "Build GLUT"                OFF)     
-option(BUILD3rd_USB              "Build USB"                 OFF)     
+option(BUILD3rd_USB              "Build USB"                 OFF)   # make InstallUSB  
 option(BUILD3rd_FreeType         "Build FreeType"            OFF)     
 option(BUILD3rd_Sodium           "Build Sodium"              OFF)     
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     
@@ -66,14 +68,15 @@ option(BUILD3rd_Eigen            "Build Eigen"               OFF)
 option(BUILD3rd_SDL              "Build SDL"                 OFF) 
 option(BUILD3rd_VTK              "Build VTK"                 OFF)     
 # Group 5
-option(BUILD3rd_OpenCV           "Build OpenCV"              ON) 
+option(BUILD3rd_OpenCV           "Build OpenCV"              OFF) 
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)       
-option(BUILD3rd_Bullet           "Build Bullet"              OFF)     # this may have to go lower
 option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
 # Group 6
 option(BUILD3rd_PCL              "Build PCL"                 OFF)     
 # Group 7
 option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict 
+# Group 8
+option(BUILD3rd_Bullet           "Build Bullet"              OFF)    
 
 # Group N - not really into building
 option(BUILD3rd_CZMQ             "Build CZMQ"                OFF) 
@@ -112,7 +115,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLM)
 # GLEW
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_GLEW)
-  include(Inc/GLEW.txt)
+ # include(Inc/GLEW.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_GLEW)
 #------------------------------------------------------------------------------
 
@@ -287,14 +290,6 @@ endif (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
 #------------------------------------------------------------------------------
 
 
-# Bullet
-#------------------------------------------------------------------------------
-if (BUILD3rd_Group5 OR BUILD3rd_Bullet)
-  include(Inc/Bullet.txt)
-endif (BUILD3rd_Group5 OR BUILD3rd_Bullet)
-#------------------------------------------------------------------------------
-
-
 # Assimp
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group5 OR BUILD3rd_Assimp)
@@ -317,6 +312,16 @@ if (BUILD3rd_Group7 OR BUILD3rd_RealSense)
   include(Inc/RealSense.txt)
 endif (BUILD3rd_Group7 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
+
+
+# Bullet
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group8 OR BUILD3rd_Bullet)
+  include(Inc/Bullet.txt)
+endif (BUILD3rd_Group8 OR BUILD3rd_Bullet)
+#------------------------------------------------------------------------------
+
+
 
 
 
@@ -362,7 +367,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_USB)
 endif (WIN32)
 
 if (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
-  message ("To finish installing Flann: make InstallCvPlot")
+  message ("To finish installing CvPlot: make InstallCvPlot")
 endif (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
 
 message ("")
