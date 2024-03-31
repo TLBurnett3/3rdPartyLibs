@@ -3,11 +3,14 @@
 
 message ("")
 message("Add Assimp to Build")
- 
+
+set (BUILD_TESTING          OFF)
+set (ASSIMP_BUILD_TESTS     OFF)
+
 FetchContent_Declare(
   Assimp
   GIT_REPOSITORY https://github.com/assimp/assimp.git
-  GIT_TAG        c421247be983eac0beccad6bfdd2d92fc11980bd # release-5.3.0
+  GIT_TAG        80799bdbf90ce626475635815ee18537718a05b1 # release-4.1.0
   )
 
 FetchContent_MakeAvailable(Assimp)
@@ -16,4 +19,3 @@ message ("Add Build Assimp Finished")
 message ("")
 
 #------------------------------------------------------------------------------
-
