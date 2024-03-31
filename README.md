@@ -1,4 +1,4 @@
 # 3rd Party Libraries 
 This CMake project downloads and builds a suite of 3rd party libraries.  In the CMakeList.txt file, They are organized in build groups and in build order.  Turn on group numbers one at a time, build each and install.  Libraries can also be built individually.  Some groups have custom install commands and others are built solo because they have target conflict with other libraries.
 
-During the CMake configuration step, if the library source code is not locally present, a git will clone the source code to the _dep directory.  This may take a long time.  The git clone command will commence with a "Add <library> to Build" message; A successful clone will result in "Add Build <library> Finished" message.  Be sure to delete the CMakeCache when building new groups. 
+During the CMake configuration step, if the library source code is not locally present, a git will clone the source code to the _dep directory.  This may take a long time.  The git clone command will commence with a "Add 'library' to Build" message; A successful clone will result in "Add Build 'library' Finished" message.  Be sure to delete the CMakeCache when building new groups. 
