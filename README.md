@@ -1,0 +1,2 @@
+# 3rd Party Libraries 
+This CMake project downloads and builds a suite of 3rd party libraries.  They are organized in build groups and in build order.  Turn on group numbers one at a time, build each and install.  Libraries can also be build individually.  Some groups have custom install commands and others are built solo because they have target configs with other libraries.
