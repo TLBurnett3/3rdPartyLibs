@@ -14,7 +14,6 @@ endif (WIN32)
 set (CMAKE_DEBUG_POSTFIX      d)
 set (CMAKE_CXX_STANDARD       17)
 
-
 set (CMAKE_MODULE_PATH        ${CMAKE_INSTALL_PREFIX}
                               ${CMAKE_INSTALL_PREFIX}/cmake
                               ${CMAKE_INSTALL_PREFIX}/lib/cmake                              
@@ -38,7 +37,7 @@ endif (UNIX)
 #------------------------------------------------------------------------------
 # Options
 # sudo make install InstallFlann InstallUSB
-option(BUILD3rd_Group1           "Build Group 1 Libraries"   ON)
+option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
@@ -46,6 +45,7 @@ option(BUILD3rd_Group5           "Build Group 5 Libraries"   OFF)
 option(BUILD3rd_Group6           "Build Group 6 Libraries"   OFF) 
 option(BUILD3rd_Group7           "Build Group 7 Libraries"   OFF) 
 option(BUILD3rd_Group8           "Build Group 8 Libraries"   OFF) 
+option(BUILD3rd_Group9           "Build Group 9 Libraries"   OFF) 
 
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
@@ -59,23 +59,25 @@ option(BUILD3rd_Sodium           "Build Sodium"              OFF)
 option(BUILD3rd_FlatBuffers      "Build FlatBuffers"         OFF)     
 option(BUILD3rd_JSon             "Build nLohmann JSon"       OFF)     
 option(BUILD3rd_ZMQ              "Build ZMQ"                 OFF)     
-option(BUILD3rd_Flann            "Build Flann"               OFF)   # make InstallFlann
 # Group 2
 option(BUILD3rd_HDF5             "Build HDF5"                OFF)   # Needs to be build by itself
 # Group 3
-option(BUILD3rd_Eigen            "Build Eigen"               OFF)     
+option(BUILD3rd_Flann            "Build Flann"               OFF)   # Needs to be build by itself
 # Group 4
+option(BUILD3rd_Eigen            "Build Eigen"               OFF)     
+option(BUILD3rd_Boost            "Build Boost"               OFF)
+# Group 5
 option(BUILD3rd_SDL              "Build SDL"                 OFF) 
 option(BUILD3rd_VTK              "Build VTK"                 OFF)     
-# Group 5
-option(BUILD3rd_OpenCV           "Build OpenCV"              ON) 
+# Group 6
+option(BUILD3rd_OpenCV           "Build OpenCV"              OFF) 
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)       
 option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
-# Group 6
-option(BUILD3rd_PCL              "Build PCL"                 OFF)     
 # Group 7
-option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict 
+option(BUILD3rd_PCL              "Build PCL"                 OFF)   # Windows build system hopelessly broken
 # Group 8
+option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall target conflict 
+# Group 9
 option(BUILD3rd_Bullet           "Build Bullet"              OFF)    
 
 # Group N - not really into building
@@ -222,14 +224,6 @@ endif (BUILD3rd_Group1 OR BUILD3rd_ZMQ)
 #------------------------------------------------------------------------------
 
 
-# Flann
-#------------------------------------------------------------------------------
-if (BUILD3rd_Group1 OR BUILD3rd_Flann)
-  include(Inc/Flann.txt)
-endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
-#------------------------------------------------------------------------------
-
-
 # HDF5
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group2 OR BUILD3rd_HDF5)
@@ -238,75 +232,91 @@ endif (BUILD3rd_Group2 OR BUILD3rd_HDF5)
 #------------------------------------------------------------------------------
 
 
+# Flann
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group3 OR BUILD3rd_Flann)
+  include(Inc/Flann.txt)
+endif (BUILD3rd_Group3 OR BUILD3rd_Flann)
+#------------------------------------------------------------------------------
+
+
 # Eigen
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group3 OR BUILD3rd_Eigen)
+if (BUILD3rd_Group4 OR BUILD3rd_Eigen)
   include(Inc/Eigen.txt)
-endif (BUILD3rd_Group3 OR BUILD3rd_Eigen)
+endif (BUILD3rd_Group4 OR BUILD3rd_Eigen)
+#------------------------------------------------------------------------------
+
+
+# Boost
+#------------------------------------------------------------------------------
+if (BUILD3rd_Group4 OR BUILD3rd_Boost)
+  include(Inc/Boost.txt)
+endif (BUILD3rd_Group4 OR BUILD3rd_Boost)
 #------------------------------------------------------------------------------
 
 
 # SDL
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group4 OR BUILD3rd_SDL)
+if (BUILD3rd_Group5 OR BUILD3rd_SDL)
   include(Inc/SDL.txt)
-endif (BUILD3rd_Group4 OR BUILD3rd_SDL)
+endif (BUILD3rd_Group5 OR BUILD3rd_SDL)
 #------------------------------------------------------------------------------
 
 
 # VTK
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group4 OR BUILD3rd_VTK)
+if (BUILD3rd_Group5 OR BUILD3rd_VTK)
   include(Inc/VTK.txt)
-endif (BUILD3rd_Group4 OR BUILD3rd_VTK)
+endif (BUILD3rd_Group5 OR BUILD3rd_VTK)
 #------------------------------------------------------------------------------
 
 
 # OpenCV
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
+if (BUILD3rd_Group6 OR BUILD3rd_OpenCV)
   include(Inc/OpenCV.txt)
-endif (BUILD3rd_Group5 OR BUILD3rd_OpenCV)
+endif (BUILD3rd_Group6 OR BUILD3rd_OpenCV)
 #------------------------------------------------------------------------------
 
 
 # CvPlot
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
+if (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
   include(Inc/CvPlot.txt)
-endif (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
+endif (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
 #------------------------------------------------------------------------------
 
 
 # Assimp
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group5 OR BUILD3rd_Assimp)
+if (BUILD3rd_Group6 OR BUILD3rd_Assimp)
   include(Inc/Assimp.txt)
-endif (BUILD3rd_Group5 OR BUILD3rd_Assimp)
+endif (BUILD3rd_Group6 OR BUILD3rd_Assimp)
 #------------------------------------------------------------------------------
 
 
 # PCL
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group6 OR BUILD3rd_PCL)
+if (BUILD3rd_Group7 OR BUILD3rd_PCL)
   include(Inc/PCL.txt)
-endif (BUILD3rd_Group6 OR BUILD3rd_PCL)
+endif (BUILD3rd_Group7 OR BUILD3rd_PCL)
 #------------------------------------------------------------------------------
 
 
 # RealSense
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group7 OR BUILD3rd_RealSense)
+if (BUILD3rd_Group8 OR BUILD3rd_RealSense)
   include(Inc/RealSense.txt)
-endif (BUILD3rd_Group7 OR BUILD3rd_RealSense)
+endif (BUILD3rd_Group8 OR BUILD3rd_RealSense)
 #------------------------------------------------------------------------------
 
 
 # Bullet
 #------------------------------------------------------------------------------
-if (BUILD3rd_Group8 OR BUILD3rd_Bullet)
+if (BUILD3rd_Group9 OR BUILD3rd_Bullet)
   include(Inc/Bullet.txt)
-endif (BUILD3rd_Group8 OR BUILD3rd_Bullet)
+endif (BUILD3rd_Group9 OR BUILD3rd_Bullet)
 #------------------------------------------------------------------------------
 
 
@@ -344,19 +354,15 @@ endif (BUILD3rd_GroupN OR BUILD3rd_CZMQ)
 message ("")
 message ("")
 
-if (BUILD3rd_Group1 OR BUILD3rd_Flann)
-  message ("To finish installing Flann: make InstallFlann")
-endif (BUILD3rd_Group1 OR BUILD3rd_Flann)
-
 if (WIN32)
 if (BUILD3rd_Group1 OR BUILD3rd_USB)
 message ("To finish installing USB: make InstallUSB")
 endif (BUILD3rd_Group1 OR BUILD3rd_USB)
 endif (WIN32)
 
-if (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
+if (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
   message ("To finish installing CvPlot: make InstallCvPlot")
-endif (BUILD3rd_Group5 OR BUILD3rd_CvPlot)
+endif (BUILD3rd_Group6 OR BUILD3rd_CvPlot)
 
 message ("")
 message ("")

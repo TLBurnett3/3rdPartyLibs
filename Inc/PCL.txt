@@ -3,25 +3,21 @@
 message ("")
 message("Add PCL to Build")
 
-set(Eigen3_DIR  ${CMAKE_INSTALL_PREFIX}/include/eigen3)
+if (WIN32)
+ message ("PCL build is hopelessly broken for windows.")
+ message ("Download PCL Windows build and install to /3rdPartyLibs")
+endif (WIN32)
 
-LIST (APPEND CMAKE_MODULE_PATH    ${CMAKE_INSTALL_PREFIX}/share/eigen3/cmake)
-LIST (APPEND CMAKE_PREFIX_PATH    ${CMAKE_INSTALL_PREFIX}/share/eigen3/cmake)
-LIST (APPEND CMAKE_MODULE_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
-LIST (APPEND CMAKE_PREFIX_PATH    ${CMAKE_INSTALL_PREFIX}/lib/cmake/vtk-9.3)
- 
-message (${CMAKE_PREFIX_PATH})
+if (UNIX)
 
-FetchContent_Declare(
-  PCL
-  GIT_REPOSITORY https://github.com/PointCloudLibrary/pcl.git
-  GIT_TAG        f62c018b4fc7df3dc2c096918a8462a190f28bb8 # release-1.14.0
-  )
+  FetchContent_Declare(
+    PCL
+    GIT_REPOSITORY https://github.com/PointCloudLibrary/pcl.git
+    GIT_TAG        f62c018b4fc7df3dc2c096918a8462a190f28bb8 # release-1.14.0
+    )
 
-set (WITH_VTK   OFF)
-set (WITH_CUDA  OFF)
-
-FetchContent_MakeAvailable(PCL)
+  FetchContent_MakeAvailable(PCL)
+endif (UNIX)
 
 message ("Add Build PCL Finished")
 message ("")

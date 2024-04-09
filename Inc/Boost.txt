@@ -1,0 +1,39 @@
+# Boost
+#------------------------------------------------------------------------------
+
+message ("")
+message("Add Boost to Build")
+ 
+FetchContent_Declare(
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG        ad09f667e61e18f5c31590941e748ac38e5a81bf # release-1.84.0
+  )
+
+FetchContent_MakeAvailable(Boost)
+
+if (WIN32)
+  ExternalProject_Add(Boost
+                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/Boost-src
+                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/bootstrap.bat
+                      BUILD_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.exe
+                      INSTALL_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.exe install --prefix=${CMAKE_INSTALL_PREFIX}
+                      BUILD_IN_SOURCE 1
+                    )
+endif (WIN32)
+
+if (UNIX)
+  ExternalProject_Add(Boost
+                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/Boost-src
+                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/bootstrap.bat
+                      BUILD_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.sh
+                      INSTALL_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.sh install --prefix=${CMAKE_INSTALL_PREFIX}
+                      BUILD_IN_SOURCE 1
+                    )
+endif (UNIX)
+
+message ("Add Build Boost Finished")
+message ("")
+
+#------------------------------------------------------------------------------
+
