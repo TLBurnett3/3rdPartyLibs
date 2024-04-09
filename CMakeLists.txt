@@ -38,7 +38,7 @@ endif (UNIX)
 #------------------------------------------------------------------------------
 # Options
 # sudo make install InstallFlann InstallUSB
-option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
+option(BUILD3rd_Group1           "Build Group 1 Libraries"   ON)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
