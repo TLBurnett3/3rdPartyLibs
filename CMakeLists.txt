@@ -8,7 +8,7 @@ include(FetchContent)
 include(ExternalProject)
 
 if (WIN32)
-set (CMAKE_INSTALL_PREFIX    /FoVI3D/3rdPartyLibs)
+set (CMAKE_INSTALL_PREFIX    /3rdPartyLibs)
 endif (WIN32)
 
 set (CMAKE_DEBUG_POSTFIX      d)
@@ -68,7 +68,7 @@ option(BUILD3rd_Eigen            "Build Eigen"               OFF)
 option(BUILD3rd_SDL              "Build SDL"                 OFF) 
 option(BUILD3rd_VTK              "Build VTK"                 OFF)     
 # Group 5
-option(BUILD3rd_OpenCV           "Build OpenCV"              OFF) 
+option(BUILD3rd_OpenCV           "Build OpenCV"              ON) 
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)       
 option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
 # Group 6
