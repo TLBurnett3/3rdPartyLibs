@@ -115,7 +115,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLM)
 # GLEW
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_GLEW)
- # include(Inc/GLEW.txt)
+  include(Inc/GLEW.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_GLEW)
 #------------------------------------------------------------------------------
 
@@ -123,19 +123,7 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLEW)
 # GLFW
 #------------------------------------------------------------------------------
 if (BUILD3rd_Group1 OR BUILD3rd_GLFW)
-  message ("")
-  message("Add GLFW to Build")
-
-  FetchContent_Declare(
-    GLFW
-    GIT_REPOSITORY https://github.com/glfw/glfw.git
-    GIT_TAG        7b6aead9fb88b3623e3b3725ebb42670cbe4c579 # release-3.4.0
-  )
-
-  FetchContent_MakeAvailable(GLFW)
-
-  message ("Add Build GLFW Finished")
-  message ("")
+  include(Inc/GLFW.txt)
 endif (BUILD3rd_Group1 OR BUILD3rd_GLFW)
 #------------------------------------------------------------------------------
 
@@ -150,9 +138,9 @@ endif (BUILD3rd_Group1 OR BUILD3rd_GLUT)
 
 # USB
 #------------------------------------------------------------------------------
-if (BUILD3rd_GroupN OR BUILD3rd_USB)
+if (BUILD3rd_Group1 OR BUILD3rd_USB)
   include(Inc/USB.txt)
-endif (BUILD3rd_GroupN OR BUILD3rd_USB)
+endif (BUILD3rd_Group1 OR BUILD3rd_USB)
 #------------------------------------------------------------------------------
 
 

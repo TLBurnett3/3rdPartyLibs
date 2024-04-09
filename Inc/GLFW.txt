@@ -1,0 +1,13 @@
+message ("")
+message("Add GLFW to Build")
+
+FetchContent_Declare(
+  GLFW
+  GIT_REPOSITORY https://github.com/glfw/glfw.git
+  GIT_TAG        7b6aead9fb88b3623e3b3725ebb42670cbe4c579 # release-3.4.0
+)
+
+FetchContent_MakeAvailable(GLFW)
+
+message ("Add Build GLFW Finished")
+message ("")

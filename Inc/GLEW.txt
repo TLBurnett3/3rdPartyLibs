@@ -2,11 +2,11 @@
 message ("")
 message("Add GLEW to Build")
 
-ifdef (WIN32)
-FetchContent_Declare(
-  GLEW
-  URL       https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0-win32.zip
-  )
+if (WIN32)
+  FetchContent_Declare(
+    GLEW
+    URL       https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0-win32.zip
+    )
 
   FetchContent_Populate(GLEW)
 endif (WIN32)
