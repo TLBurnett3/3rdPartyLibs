@@ -9,6 +9,42 @@ if (WIN32)
     )
 
   FetchContent_Populate(GLEW)
+
+  add_custom_target("InstallGLEW")
+
+  add_custom_command(TARGET "InstallGLEW" POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/include/GL)
+
+  add_custom_command(TARGET "InstallGLEW" POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/glew-src/include/GL/glew.h ${CMAKE_INSTALL_PREFIX}/include/GL
+    COMMENT "Copying glew.h"
+    )
+
+  add_custom_command(TARGET "InstallGLEW" POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/glew-src/include/GL/eglew.h ${CMAKE_INSTALL_PREFIX}/include/GL
+    COMMENT "Copying eglew.h"
+    )
+
+   add_custom_command(TARGET "InstallGLEW" POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/glew-src/include/GL/glxew.h ${CMAKE_INSTALL_PREFIX}/include/GL
+    COMMENT "Copying glxew.h"
+    )
+
+  add_custom_command(TARGET "InstallGLEW" POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/glew-src/include/GL/wglew.h ${CMAKE_INSTALL_PREFIX}/include/GL
+    COMMENT "Copying wglew.h"
+    )
+
+  add_custom_command(TARGET "InstallGLEW" POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/glew-src/bin/Release/x64/glew32.dll ${CMAKE_INSTALL_PREFIX}/bin
+    COMMENT "Copying glew32.dll"
+    )
+
+  add_custom_command(TARGET "InstallGLEW" POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/glew-src/lib/Release/x64/glew32.lib ${CMAKE_INSTALL_PREFIX}/lib
+    COMMENT "Copying glew32.dll"
+    )
+
 endif (WIN32)
 
 #FetchContent_Declare(

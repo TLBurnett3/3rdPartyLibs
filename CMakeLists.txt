@@ -50,8 +50,8 @@ option(BUILD3rd_Group9           "Build Group 9 Libraries"   OFF)
 # Group 1
 option(BUILD3rd_zLib             "Build zLib"                OFF)     
 option(BUILD3rd_GLM              "Build GLM"                 OFF)   
-option(BUILD3rd_GLEW             "Build GLEW"                OFF)   
-option(BUILD3rd_GLFW             "Build GLFW"                ON)       
+option(BUILD3rd_GLEW             "Build GLEW"                ON)   
+option(BUILD3rd_GLFW             "Build GLFW"                OFF)       
 option(BUILD3rd_GLUT             "Build GLUT"                OFF)     
 option(BUILD3rd_USB              "Build USB"                 OFF)   # make InstallUSB  
 option(BUILD3rd_FreeType         "Build FreeType"            OFF)     
