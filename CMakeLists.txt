@@ -1,14 +1,13 @@
 cmake_minimum_required(VERSION 3.26)
 
-set (CMAKE_GENERATOR_PLATFORM x64)
-
 project(3rdPartyLibs)
 
 include(FetchContent)
 include(ExternalProject)
 
 if (WIN32)
-set (CMAKE_INSTALL_PREFIX    /3rdPartyLibs)
+set (CMAKE_GENERATOR_PLATFORM   x64)
+set (CMAKE_INSTALL_PREFIX       /3rdPartyLibs)
 endif (WIN32)
 
 set (CMAKE_DEBUG_POSTFIX      d)
@@ -37,7 +36,7 @@ endif (UNIX)
 #------------------------------------------------------------------------------
 # Options
 # sudo make install InstallFlann InstallUSB
-option(BUILD3rd_Group1           "Build Group 1 Libraries"   OFF)
+option(BUILD3rd_Group1           "Build Group 1 Libraries"   ON)
 option(BUILD3rd_Group2           "Build Group 2 Libraries"   OFF)
 option(BUILD3rd_Group3           "Build Group 3 Libraries"   OFF)
 option(BUILD3rd_Group4           "Build Group 4 Libraries"   OFF)
