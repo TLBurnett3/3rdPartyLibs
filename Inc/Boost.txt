@@ -14,7 +14,7 @@ FetchContent_MakeAvailable(Boost)
 
 if (WIN32)
   ExternalProject_Add(Boost
-                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/Boost-src
+                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/boost-src
                       CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/bootstrap.bat
                       BUILD_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.exe
                       INSTALL_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.exe install --prefix=${CMAKE_INSTALL_PREFIX}
@@ -24,10 +24,10 @@ endif (WIN32)
 
 if (UNIX)
   ExternalProject_Add(Boost
-                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/Boost-src
-                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/bootstrap.bat
-                      BUILD_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.sh
-                      INSTALL_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2.sh install --prefix=${CMAKE_INSTALL_PREFIX}
+                      SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/boost-src
+                      CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/bootstrap.sh
+                      BUILD_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2
+                      INSTALL_COMMAND ${FETCHCONTENT_BASE_DIR}/boost-src/b2 install --prefix=${CMAKE_INSTALL_PREFIX}
                       BUILD_IN_SOURCE 1
                     )
 endif (UNIX)

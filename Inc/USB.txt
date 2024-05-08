@@ -11,15 +11,15 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(USB)
 
-if (UNIX)
+if (UNIXNOTWORKING)
   ExternalProject_Add(USB
                       SOURCE_DIR ${FETCHCONTENT_BASE_DIR}/usb-src
                       CONFIGURE_COMMAND ${FETCHCONTENT_BASE_DIR}/usb-src/bootstrap.sh
-                      BUILD_COMMAND make
-                      INSTALL_COMMAND make install
+                      BUILD_COMMAND make -f ${FETCHCONTENT_BASE_DIR}/usb-subbuild/Makefile
+                      INSTALL_COMMAND make install -f ${FETCHCONTENT_BASE_DIR}/usb-subbuild/Makefile
                       BUILD_IN_SOURCE 1
                       )
-endif (UNIX)  
+endif (UNIXNOTWORKING)  
 
 if (WIN32)
 #  include_external_msproject(USB_STATIC
