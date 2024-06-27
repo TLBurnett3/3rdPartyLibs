@@ -71,7 +71,8 @@ option(BUILD3rd_VTK              "Build VTK"                 OFF)
 # Group 6
 option(BUILD3rd_OpenCV           "Build OpenCV"              OFF) 
 option(BUILD3rd_CvPlot           "Build CvPlot"              OFF)       
-option(BUILD3rd_Assimp           "Build Assimp"              OFF)     
+option(BUILD3rd_Assimp           "Build Assimp"              OFF)    
+option(BUILD3rd_CZMQ             "Build CZMQ"                OFF)  
 # Group 7
 option(BUILD3rd_PCL              "Build PCL"                 OFF)   # Windows build system hopelessly broken
 # Group 8
@@ -80,7 +81,6 @@ option(BUILD3rd_RealSense        "Build RealSense"           OFF)   # uninstall 
 option(BUILD3rd_Bullet           "Build Bullet"              OFF)    
 
 # Group N - not really into building
-option(BUILD3rd_CZMQ             "Build CZMQ"                OFF) 
 option(BUILD3rd_VCPkg            "Build VCPkg"               OFF) 
 #------------------------------------------------------------------------------
 
